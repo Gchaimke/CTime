@@ -36,25 +36,36 @@ class User extends BaseController
         $password = esc($this->request->getVar('password'));
         if ($username != "" && $password != "") {
             $dir = glob(DATAPATH . "users/*.json");
-            foreach ($dir as $file) {
-                $user = json_decode(file_get_contents($file), true);
-                if ($user["username"] == $username) {
-                    if (password_verify($password, $user["password"])) {
-                        $session_data = [
-                            'id'  => $user["id"],
-                            'username'  => $user["username"],
-                            'view_name'  => $user["view_name"],
-                            'role' => $user["role"],
-                            'logged_in' => true,
-                        ];
-                        $this->session->set($session_data);
-                        session_write_close();
-                        return redirect()->to("/user");
+            if (count($dir) > 0) {
+                foreach ($dir as $file) {
+                    $user = json_decode(file_get_contents($file), true);
+                    if ($user["username"] == $username) {
+                        if (password_verify($password, $user["password"])) {
+                            $session_data = [
+                                'id'  => $user["id"],
+                                'username'  => $user["username"],
+                                'view_name'  => $user["view_name"],
+                                'role' => $user["role"],
+                                'logged_in' => true,
+                            ];
+                            $this->session->set($session_data);
+                            session_write_close();
+                            return redirect()->to("/user");
+                        }
                     }
                 }
+            }else{
+                $user = array(
+                    "view_name" => "Chaim",
+                    "username" => "admin",
+                    "email" => "admin@email.com",
+                    "role" => "admin",
+                    "password" => "admin",
+                );
+                $this->userModel->add_user($user);
             }
-        } else {
-            return redirect()->to("/user/login");
         }
+
+        return redirect()->to("/user/login");
     }
 }

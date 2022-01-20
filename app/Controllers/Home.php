@@ -14,11 +14,11 @@ class Home extends BaseController
             return redirect()->to("/user/login");
         }
         $user = array(
-            "view_name" => "Chaim",
-            "username" => "admin",
+            "view_name" => "Yosi",
+            "username" => "user",
             "email" => "admin@email.com",
-            "role" => "admin",
-            "password" => "Sdrm1415",
+            "role" => "user",
+            "password" => "user",
         );
         $this->userModel->add_user($user);
         $year = isset($_GET["year"]) ? $_GET["year"] : date("y");
