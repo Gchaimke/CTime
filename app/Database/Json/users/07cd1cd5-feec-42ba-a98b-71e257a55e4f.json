@@ -1,0 +1,14 @@
+{
+    "id": "07cd1cd5-feec-42ba-a98b-71e257a55e4f",
+    "username": "admin",
+    "view_name": "Chaim",
+    "email": "admin@email.com",
+    "password": "$2y$10$ZwLoTdrGsZEkUSHOpEsg8Obf6ci.Ss2DaJMFoarwKiTw0g9Cp.52y",
+    "role": "admin",
+    "created_at": {
+        "date": "2022-01-20 09:20:11.000000",
+        "timezone_type": 3,
+        "timezone": "America\/Chicago"
+    },
+    "updated_at": null
+}
