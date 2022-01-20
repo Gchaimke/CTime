@@ -49,7 +49,17 @@ class BaseController extends Controller
         parent::initController($request, $response, $logger);
 
         // Preload any models, libraries, etc, here.
+        helper("time");
+        if (!file_exists(DATAPATH)) {
+            mkdir(DATAPATH . 'users', 0644, true);
+            mkdir(DATAPATH . 'timers', 0644, true);
+        }
+        $timers_current_date = DATAPATH . 'timers/' . date("y/m/");
+        if (!file_exists($timers_current_date)) {
+            mkdir($timers_current_date, 0644, true);
+        }
         $this->userModel = model('App\Models\UserModel');
+        $this->timeModel = model('App\Models\TimerModel');
 
         $this->session = \Config\Services::session();
         $this->session->start();

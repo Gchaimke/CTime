@@ -20,7 +20,7 @@ if (isset($user)) : ?>
 		</tr>
 	</thead>
 	<?php
-	if (isset($timers)) {
+	if (isset($timers) && $timers !== false) {
 		foreach ($timers as $day => $date) {
 			$in = "";
 			$out = "";
@@ -39,12 +39,12 @@ if (isset($user)) : ?>
 					}
 				}
 				if ($status == "total") {
-					$total = "<p>$time</p>";
+					$total = $time;
 				}
 			}
 			echo "<td>$in</td>";
 			echo "<td>$out</td>";
-			echo "<td>$total</td>";
+			echo "<td>" . convertToHoursMins($total) . "</td>";
 			echo "</tr>";
 		}
 	}

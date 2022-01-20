@@ -1,7 +1,14 @@
 <?php
-namespace App\Entity;
-use CodeIgniter\Entity\Entity;
-class Timers extends Entity
-{
 
+namespace App\Entities;
+
+use CodeIgniter\Entity\Entity;
+
+class Timer extends Entity
+{
+    protected $attributes = [
+        'in'         => null,
+        'out'        => null,
+        'total'      => null,
+    ];
 }

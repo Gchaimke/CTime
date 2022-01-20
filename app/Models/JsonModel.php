@@ -14,6 +14,7 @@ class JsonModel
     function findAll()
     {
         $dir = glob($this->db_dir . "*.json");
+        $all = array();
         foreach ($dir as $file) {
             $data = json_decode(file_get_contents($file));
             $all[] = $data;
