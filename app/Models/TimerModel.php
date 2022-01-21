@@ -64,4 +64,29 @@ class TimerModel extends JsonModel
         }
         return $total;
     }
+
+    public function get_last_action($user_id)
+    {
+        $all_timers = $this->get_timers(date("y"), date("m"), $user_id);
+        $date_key = date("d") . "/" . date("m") . "/" . date("y");
+        if (isset($all_timers[$date_key])) {
+            $diff = count($all_timers[$date_key]["in"]) >  count($all_timers[$date_key]["out"]);
+            if ($diff) {
+                return array(
+                    "action" => "in",
+                    "time" => end($all_timers[$date_key]["in"])
+                );
+            } else {
+                return array(
+                    "action" => "out",
+                    "time" => end($all_timers[$date_key]["out"])
+                );
+            }
+        }else{
+            return array(
+                "action" => "none",
+                "time" => ""
+            );
+        }
+    }
 }

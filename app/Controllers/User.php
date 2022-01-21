@@ -17,15 +17,7 @@ class User extends BaseController
     {
         $year = isset($_GET["year"]) ? $_GET["year"] : date("y");
         $month = isset($_GET["month"]) ? $_GET["month"] : date("m");
-
         $this->data["timers"] = $this->timeModel->get_timers($year, $month, $this->data['user']['id']);
-        
-        if (isset($_GET["in"])) {
-            $this->timeModel->add_time(date("d"), $month, $year, date("H:i"), "in", $this->data['user']['id']);
-        }
-        if (isset($_GET["out"])) {
-            $this->timeModel->add_time(date("d"), $month, $year, date("H:i"), "out", $this->data['user']['id']);
-        }
         return view("timers", $this->data);
     }
 
@@ -56,5 +48,13 @@ class User extends BaseController
             }
         }
         return redirect()->to("/user");
+    }
+
+    function action()
+    {
+        $action = $this->request->getVar('action');
+        $time = date("H:i");
+        $this->timeModel->add_time(date("d"), date("m"), date("y"), $time, $action, $this->data['user']['id']);
+        echo "$action: $time";
     }
 }
