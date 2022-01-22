@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-class Home extends BaseController
+class Admin extends BaseController
 {
     public function __construct()
     {
@@ -10,10 +10,10 @@ class Home extends BaseController
 
     public function index()
     {
-        if (!isset($this->data["user"])) {
+        if (!isset($this->data["user"]) || $this->data["user"]['role'] != "admin") {
             return redirect()->to("/login");
         }
         $this->data["last_action"] = $this->timeModel->get_last_action($this->data["user"]["id"]);
-        return view("home", $this->data);
+        return view("admin", $this->data);
     }
 }

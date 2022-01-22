@@ -6,7 +6,7 @@ class UserModel extends JsonModel
 {
     protected $table         = 'users';
     protected $allowedFields = [
-        'view_name', 'username', 'email', 'role', 'password',
+        'view_name', 'username', 'email', 'role', 'password', 'timezone', 'language',
     ];
     protected $returnType    = \App\Entities\User::class;
     protected $useTimestamps = true;
@@ -49,6 +49,8 @@ class UserModel extends JsonModel
                     "email" => "admin@email.com",
                     "role" => "admin",
                     "password" => "admin",
+                    'timezone'  => 'Asia/Jerusalem',
+                    'language'   => 'he_IL',
                 );
                 $this->add_user($new_user);
             }

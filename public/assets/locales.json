@@ -1,0 +1,22 @@
+{
+    "LANGUAGE_BY_LOCALE": {
+        "en_GB": "English (United Kingdom)",
+        "en_US": "English (United States)",
+        "fr_FR": "French (France)",
+        "de_DE": "German (Germany)",
+        "he_IL": "Hebrew (Israel)",
+        "hi_IN": "Hindi (India)",
+        "ja_JP": "Japanese (Japan)",
+        "ko_KR": "Korean (South Korea)",
+        "pl_PL": "Polish (Poland)",
+        "pt_BR": "Portuguese (Brazil)",
+        "pt_PT": "Portuguese (Portugal)",
+        "ro_RO": "Romanian (Romania)",
+        "ru_RU": "Russian (Russia)",
+        "ru_UA": "Russian (Ukraine)",
+        "es_ES": "Spanish (Spain)",
+        "sv_SE": "Swedish (Sweden)",
+        "th_TH": "Thai (Thailand)",
+        "uk_UA": "Ukrainian (Ukraine)"
+    }
+}

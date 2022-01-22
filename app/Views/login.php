@@ -48,17 +48,17 @@
 	}
 </style>
 <main class="form-signin">
-	<form class="login-form" method="post" action="/user/try_login">
+	<form class="login-form" method="post" action="/login/try_login">
 		<?= csrf_field() ?>
 		<a href="/"><img class="mb-4" src="/assets/icons/clock-history.svg" alt="clock" width="172"></a>
 		<h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
 		<div class="form-floating">
-			<input type="teax" class="form-control mb-2" name="username" id="floatingInput" placeholder="Username">
+			<input type="teax" class="form-control mb-2" name="username" id="floatingInput" placeholder="Username" required>
 			<label for="floatingInput">User Name</label>
 		</div>
 		<div class="form-floating">
-			<input type="password" class="form-control" name="password" id="floatingPassword" placeholder="Password">
+			<input type="password" class="form-control" name="password" id="floatingPassword" placeholder="Password" required>
 			<label for="floatingPassword">Password</label>
 		</div>
 		<button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>

@@ -2,6 +2,7 @@
 $logged_in = false;
 if (isset($user['logged_in']) && $user['logged_in'] != "") {
     $logged_in = true;
+    $role = $user['role'];
 }
 ?>
 <!DOCTYPE html>
@@ -32,22 +33,22 @@ if (isset($user['logged_in']) && $user['logged_in'] != "") {
                             <a class="nav-link active" aria-current="page" href="/">Home</a>
                         </li>
                         <?php if ($logged_in) : ?>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/user">User</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/user/timers">Timers</a>
-                            </li>
+                            <?php if ($role == "admin") : ?>
+                                <li class="nav-item"> <a class="nav-link" href="/admin">Admin</a> </li>
+                            <?php endif ?>
+
+                            <li class="nav-item"> <a class="nav-link" href="/user">User</a> </li>
+                            <li class="nav-item"><a class="nav-link" href="/user/timers">Timers</a> </li>
                         <?php endif ?>
                     </ul>
                     <ul class="navbar-nav d-flex">
                         <?php if ($logged_in) : ?>
                             <li class="nav-item">
-                                <a class="nav-link" href="/user/login"><i class="bi bi-power"></i></a>
+                                <a class="nav-link" href="/login"><i class="bi bi-power"></i></a>
                             </li>
                         <?php else : ?>
                             <li class="nav-item">
-                                <a class="nav-link" href="/user/login">Login</a>
+                                <a class="nav-link" href="/login">Login</a>
                             </li>
                         <?php endif ?>
                     </ul>
