@@ -8,6 +8,8 @@ use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
+use CodeIgniter\I18n\Time;
+
 
 /**
  * Class BaseController
@@ -29,6 +31,7 @@ class BaseController extends Controller
     protected $request;
     protected $session;
     public $data;
+    public $now;
     public $userModel;
 
     /**
@@ -54,19 +57,23 @@ class BaseController extends Controller
             mkdir(DATAPATH . 'users', 0644, true);
             mkdir(DATAPATH . 'timers', 0644, true);
         }
-        $timers_current_date = DATAPATH . 'timers/' . date("y/m/");
+
+        $this->session = \Config\Services::session();
+        $this->session->start();
+        $time = new Time();
+        $this->now = $time->now($this->session->timezone);
+        $timers_current_date = DATAPATH . 'timers/' . $this->now->getYear() . "/" . $this->now->getMonth() . "/";
         if (!file_exists($timers_current_date)) {
             mkdir($timers_current_date, 0644, true);
         }
         $this->userModel = model('App\Models\UserModel');
         $this->timeModel = model('App\Models\TimerModel');
 
-        $this->session = \Config\Services::session();
-        $this->session->start();
+
 
         $this->data = array();
-        $this->data["message_type"] ="primary";
-        $this->data["message_text"] ="";
+        $this->data["message_type"] = "primary";
+        $this->data["message_text"] = "";
 
         if (!isset($this->session->logged_in) || !$this->session->logged_in) {
             return redirect()->to("user/login");
@@ -76,6 +83,7 @@ class BaseController extends Controller
                 "username" => $this->session->username,
                 "view_name" => $this->session->view_name,
                 "logged_in" => $this->session->logged_in,
+                "timezone" => $this->session->timezone,
                 "role" => $this->session->role,
             ];
         }

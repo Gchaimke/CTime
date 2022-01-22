@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use CodeIgniter\I18n\Time;
+
 class TimerModel extends JsonModel
 {
     protected $table         = 'timers';
@@ -71,8 +73,12 @@ class TimerModel extends JsonModel
 
     public function get_last_action($user_id)
     {
-        $all_timers = $this->get_timers(date("y"), date("m"), $user_id);
-        $date_key = date("d") . "/" . date("m") . "/" . date("y");
+        $time = new Time();
+        $session = \Config\Services::session();
+
+        $now = $time->now($session->timezone);
+        $all_timers = $this->get_timers($now->getYear(), $now->getMonth(), $user_id);
+        $date_key = $now->getDay() . "/" . $now->getMonth() . "/" . $now->getYear();
         if (isset($all_timers[$date_key])) {
             $diff = count($all_timers[$date_key]["in"]) >  count($all_timers[$date_key]["out"]);
             if ($diff) {
@@ -89,7 +95,7 @@ class TimerModel extends JsonModel
         } else {
             return array(
                 "action" => "none",
-                "time" => ""
+                "time" => print_r($all_timers)
             );
         }
     }

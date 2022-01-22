@@ -17,8 +17,8 @@ class User extends BaseController
 
     public function timers()
     {
-        $year = isset($_GET["year"]) ? $_GET["year"] : date("y");
-        $month = isset($_GET["month"]) ? $_GET["month"] : date("m");
+        $year = isset($_GET["year"]) ? $_GET["year"] : $this->now->getYear();
+        $month = isset($_GET["month"]) ? $_GET["month"] : $this->now->getMonth();
         if (isset($this->data['user'])) {
             $this->data["timers"] = $this->timeModel->get_timers($year, $month, $this->data['user']['id']);
         } else {
@@ -30,8 +30,15 @@ class User extends BaseController
     function action()
     {
         $action = $this->request->getVar('action');
-        $time = date("H:i");
-        $this->timeModel->add_time(date("d"), date("m"), date("y"), $time, $action, $this->data['user']['id']);
+        $time = $this->now->toTimeString();
+        $this->timeModel->add_time(
+            $this->now->getDay(),
+            $this->now->getMonth(),
+            $this->now->getYear(),
+            $time,
+            $action,
+            $this->data['user']['id']
+        );
         echo "$action: $time";
     }
 

@@ -31,7 +31,7 @@ class Login extends BaseController
             ];
             $this->session->set($session_data);
             session_write_close();
-            return redirect()->to("/user");
+            return redirect()->to("/");
         }else{
             $this->data['message_type'] = "danger";
             $this->data['message_text'] = "Username or Password is wrong!";
