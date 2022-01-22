@@ -41,7 +41,7 @@ class JsonModel
         $all = array();
         foreach ($dir as $file) {
             $data = json_decode(file_get_contents($file));
-            if ($data->$feild == $search) {
+            if (strtolower($data->$feild) == strtolower($search)) {
                 $all[] = $data;
             }
         }
@@ -56,7 +56,7 @@ class JsonModel
         $dir = glob($this->db_dir . "*.json");
         foreach ($dir as $file) {
             $data = json_decode(file_get_contents($file));
-            if ($data->$feild == $search) {
+            if (strtolower($data->$feild) == strtolower($search)) {
                 return $data;
             }
         }

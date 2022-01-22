@@ -13,7 +13,7 @@ class Admin extends BaseController
         if (!isset($this->data["user"]) || $this->data["user"]['role'] != "admin") {
             return redirect()->to("/login");
         }
-        $this->data["last_action"] = $this->timeModel->get_last_action($this->data["user"]["id"]);
+        $this->data["users"] = $this->userModel->findAll();
         return view("admin", $this->data);
     }
 }

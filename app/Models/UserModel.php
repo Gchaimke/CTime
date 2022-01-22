@@ -22,11 +22,11 @@ class UserModel extends JsonModel
             $file = $this->db_dir . $new_user->id . ".json";
         }
         if (!$this->first("username", $user["username"])) {
+            $new_user->username = $user["username"];
             $new_user->view_name = $user["view_name"];
             $new_user->email = $user["email"];
-            $new_user->username = $user["username"];
-            $new_user->setPassword($user["password"]);
             $new_user->role = $user["role"];
+            $new_user->setPassword($user["password"]);
             $new_user->setCreatedAt(date("Y-m-d H:i:s"));
             file_put_contents($file, json_encode($new_user));
             return true;
@@ -56,5 +56,17 @@ class UserModel extends JsonModel
             }
         }
         return false;
+    }
+
+    function delete_user($id)
+    {
+        $data_files = glob(DATAPATH . "{timers/*/*/,users/}$id*.json",GLOB_BRACE );
+        foreach ($data_files as $file) {
+            if (strpos($file, $id) !== false) {
+                if (file_exists($file)) {
+                    unlink($file);
+                }
+            }
+        }
     }
 }

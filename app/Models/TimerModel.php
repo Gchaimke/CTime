@@ -58,7 +58,11 @@ class TimerModel extends JsonModel
         if (isset($timers["out"])) {
             foreach ($timers["out"] as $key => $value) {
                 if (isset($timers["in"][$key])) {
-                    $total += (strtotime($value) - strtotime($timers["in"][$key])) / 60;
+                    $sub_total = (strtotime($value) - strtotime($timers["in"][$key])) / 60;
+                    if ($sub_total < 0) {
+                        $sub_total = (24 * 60) - abs($sub_total);
+                    }
+                    $total += $sub_total;
                 }
             }
         }
@@ -82,7 +86,7 @@ class TimerModel extends JsonModel
                     "time" => end($all_timers[$date_key]["out"])
                 );
             }
-        }else{
+        } else {
             return array(
                 "action" => "none",
                 "time" => ""
