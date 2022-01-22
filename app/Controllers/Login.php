@@ -10,7 +10,8 @@ class Login extends BaseController
         if (isset($this->session->logged_in) && $this->session->logged_in) {
             $this->session->destroy();
         }
-        return view("login");
+        // $this->data['message_text'] = "test";
+        return view("login", $this->data);
     }
 
     public function try_login()
@@ -31,7 +32,11 @@ class Login extends BaseController
             $this->session->set($session_data);
             session_write_close();
             return redirect()->to("/user");
+        }else{
+            $this->data['message_type'] = "danger";
+            $this->data['message_text'] = "Username or Password is wrong!";
         }
-        return view("login");
+
+        return view("login", $this->data);
     }
 }

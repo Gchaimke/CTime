@@ -10,6 +10,8 @@ class User extends BaseController
         if (!isset($this->data["user"])) {
             return redirect()->to("/login");
         }
+        $this->data['message_type'] = "success";
+        $this->data['message_text'] = "Username or Password is good!";
         return view("user", $this->data);
     }
 

@@ -65,6 +65,9 @@ class BaseController extends Controller
         $this->session->start();
 
         $this->data = array();
+        $this->data["message_type"] ="primary";
+        $this->data["message_text"] ="";
+
         if (!isset($this->session->logged_in) || !$this->session->logged_in) {
             return redirect()->to("user/login");
         } else {
