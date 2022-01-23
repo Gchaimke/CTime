@@ -1,4 +1,8 @@
-# CTime is CodeIgniter 4 Application for work time cards and projects timing.
+# CTime is CodeIgniter 4 Application 
+## What is CTime?
+
+Is simple time logger for work time cards and projects timing.
+The app using local json files (like mongoDB) as DB, no need sql or other db connection.
 
 ## What is CodeIgniter?
 
