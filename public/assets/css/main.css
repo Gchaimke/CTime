@@ -5,7 +5,18 @@
     bottom: 0;
     width: 100%;
 }
+
 .btn-close {
     position: absolute;
     right: 15px;
+}
+
+#clock {
+    font-size: 1.5em;
+    font-weight: 700;
+    font-family: cursive;
+}
+
+#date {
+    font-size: 1.5em;
 }

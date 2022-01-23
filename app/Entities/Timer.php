@@ -10,5 +10,7 @@ class Timer extends Entity
         'in'         => null,
         'out'        => null,
         'total'      => null,
+        'holiday'      => null,
+        'sickday'      => null,
     ];
 }

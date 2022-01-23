@@ -10,7 +10,7 @@ if (isset($user)) : ?>
 // print_r($timers);
 ?>
 
-<table class="table">
+<table class="table table-striped table-hover">
 	<thead>
 		<tr>
 			<th scope="col">Date</th>
@@ -26,8 +26,16 @@ if (isset($user)) : ?>
 			$out = "";
 			$total = "";
 			echo "<tr><th scope='row'>$day</th>";
-
 			foreach ($date as $status => $time) {
+				if ($status == "holiday" && $time) {
+					$in = "holiday";
+					continue;
+				}
+				if ($status == "sickday" && $time) {
+					$in = "sickday";
+					continue;
+				}
+
 				if ($status == "in") {
 					foreach ($time as $key => $value) {
 						$in .= "<p>$value</p>";

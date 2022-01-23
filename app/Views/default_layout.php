@@ -43,6 +43,8 @@ if (session()->getFlashdata('error') != "" || service('validation')->listErrors(
                         <?php endif ?>
                     </ul>
                     <ul class="navbar-nav d-flex">
+                        <li class="nav-item mx-3 mt-2"><span class="date text-white" id="date"><?=$now->toDateString()?></span></li>
+                        <li class="nav-item mx-3 mt-2"><span class="clock text-white" id="clock"></span></li>
                         <?php if ($role == "admin") : ?>
                             <li class="nav-item"> <a class="nav-link <?= uri_string() == "admin" ? "active" : "" ?>" href="/admin"><i class="bi bi-tools" style="font-size: 1.5rem;"></i></a></li>
                         <?php endif ?>
@@ -85,10 +87,9 @@ if (session()->getFlashdata('error') != "" || service('validation')->listErrors(
             </div>
         </div>
     </footer>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
     <!-- SCRIPTS -->
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="/assets/js/clock.js?<?= APP_VARSION ?>" crossorigin="anonymous"></script>
 </body>
 
 </html>

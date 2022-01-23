@@ -67,13 +67,14 @@ class BaseController extends Controller
             mkdir($timers_current_date, 0644, true);
         }
         $this->userModel = model('App\Models\UserModel');
-        $this->timeModel = model('App\Models\TimerModel');
+        $this->timerModel = model('App\Models\TimerModel');
 
 
 
         $this->data = array();
         $this->data["message_type"] = "primary";
         $this->data["message_text"] = "";
+        $this->data["now"] = $this->now;
 
         if (!isset($this->session->logged_in) || !$this->session->logged_in) {
             return redirect()->to("user/login");
