@@ -1,4 +1,4 @@
-# CodeIgniter 4 Application Starter
+# CTime is CodeIgniter 4 Application for work time cards and projects timing.
 
 ## What is CodeIgniter?
 
