@@ -44,7 +44,8 @@ if (session()->getFlashdata('error') != "" || service('validation')->listErrors(
                             <a class="nav-link <?= uri_string() == "/" ? "active" : "" ?> " aria-current="" href="/"><i class="bi bi-house-door" style="font-size: 1.5rem;"></i></a>
                         </li>
                         <?php if ($logged_in) : ?>
-                            <li class="nav-item"><a class="nav-link <?= uri_string() == "user/timers" ? "active" : "" ?>" href="/user/timers"><i class="bi bi-calendar3" style="font-size: 1.5rem;"></i></a> </li>
+                            <li class="nav-item"><a class="nav-link <?= uri_string() == "user/month" ? "active" : "" ?>" href="/user/month"><i class="bi bi-calendar3" style="font-size: 1.5rem;"></i></a> </li>
+                            <li class="nav-item"><a class="nav-link <?= uri_string() == "user/projects" ? "active" : "" ?>" href="/user/projects"><i class="bi bi-card-list" style="font-size: 1.5rem;"></i></a> </li>
                         <?php endif ?>
                     </ul>
                     <ul class="navbar-nav d-flex">

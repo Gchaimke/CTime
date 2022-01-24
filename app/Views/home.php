@@ -6,7 +6,7 @@
         <button class="btn btn-warning action_btn mb-3" data-action="holiday">Holiday</button>
         <button class="btn btn-dark action_btn mb-3" data-action="sickday">Sickday</button><br>
     <?php else : ?>
-        <h2><?= "You are is {$last_action["action"]} {$last_action["time"]}" ?></h2>
+        <h2><?= "Today {$last_action["action"]} {$last_action["time"]}" ?></h2>
     <?php endif ?>
     <?php if ($last_action["action"] != "holiday" && $last_action["action"] != "sickday") : ?>
         <?php if ($last_action["action"] == "in") : ?>

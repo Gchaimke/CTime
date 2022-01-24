@@ -15,7 +15,7 @@ class User extends BaseController
         return view("user", $this->data);
     }
 
-    public function timers()
+    public function month()
     {
         $year = isset($_GET["year"]) ? $_GET["year"] : $this->now->getYear();
         $month = isset($_GET["month"]) ? $_GET["month"] : $this->now->getMonth();
@@ -24,7 +24,20 @@ class User extends BaseController
         } else {
             return redirect()->to("/login");
         }
-        return view("timers", $this->data);
+        return view("month", $this->data);
+    }
+
+    public function projects()
+    {
+        $year = isset($_GET["year"]) ? $_GET["year"] : $this->now->getYear();
+        $month = isset($_GET["month"]) ? $_GET["month"] : $this->now->getMonth();
+        if (isset($this->data['user'])) {
+            $this->data["timers"] = $this->timerModel->get_timers($year, $month, $this->data['user']['id']);
+            $this->data["last_action"] = $this->timerModel->get_last_action($this->data["user"]["id"]);
+        } else {
+            return redirect()->to("/login");
+        }
+        return view("projects", $this->data);
     }
 
     function action()

@@ -1,10 +1,11 @@
 <?= $this->extend('default_layout') ?>
 <?= $this->section('content') ?>
-<h1>Home <?= CodeIgniter\CodeIgniter::CI_VERSION ?></h1>
 <?php
-
+$month = isset($_GET['month']) ? $_GET['month'] : $now->getMonth();
+$dateObj   = DateTime::createFromFormat('!m', $month);
+$monthName = $dateObj->format('F');
 if (isset($user)) : ?>
-	<h1>Hello <?= $user['view_name'] . " you are " . $user['role'] ?></h1>
+	<h1><?= $monthName ?></h1>
 <?php endif ?>
 <?php
 // print_r($timers);
