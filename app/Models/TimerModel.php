@@ -42,9 +42,15 @@ class TimerModel extends JsonModel
 
         if (!isset($timers[$date])) {
             $new_date = new \App\Entities\Timer;
-            $new_date->in = array($time);
+            if ($action == "holiday" || $action == "sickday") {
+                $new_date->$action = true;
+                $new_date->in = array();
+                $new_date->total = 8.5 * 60;
+            } else {
+                $new_date->in = array($time);
+                $new_date->total = 0;
+            }
             $new_date->out = array();
-            $new_date->total = 0;
             $timers[$date] = $new_date;
         } else {
             $timers[$date][$action][] = $time;
@@ -77,19 +83,31 @@ class TimerModel extends JsonModel
         $session = \Config\Services::session();
 
         $now = $time->now($session->timezone);
-        $all_timers = $this->get_timers($now->getYear(), $now->getMonth(), $user_id);
+        $timers = $this->get_timers($now->getYear(), $now->getMonth(), $user_id);
         $date_key = $now->getDay() . "/" . $now->getMonth() . "/" . $now->getYear();
-        if (isset($all_timers[$date_key])) {
-            $diff = count($all_timers[$date_key]["in"]) >  count($all_timers[$date_key]["out"]);
+        if (isset($timers[$date_key])) {
+            if ($timers[$date_key]["holiday"]) {
+                return array(
+                    "action" => "holiday",
+                    "time" => ""
+                );
+            }
+            if ($timers[$date_key]["sickday"]) {
+                return array(
+                    "action" => "sickday",
+                    "time" => ""
+                );
+            }
+            $diff = count($timers[$date_key]["in"]) >  count($timers[$date_key]["out"]);
             if ($diff) {
                 return array(
                     "action" => "in",
-                    "time" => end($all_timers[$date_key]["in"])
+                    "time" => end($timers[$date_key]["in"])
                 );
             } else {
                 return array(
                     "action" => "out",
-                    "time" => end($all_timers[$date_key]["out"])
+                    "time" => end($timers[$date_key]["out"])
                 );
             }
         } else {

@@ -11,12 +11,9 @@
     right: 15px;
 }
 
-#clock {
-    font-size: 1.5em;
-    font-weight: 700;
-    font-family: cursive;
-}
-
-#date {
-    font-size: 1.5em;
+.clock-bar {
+    color: aliceblue;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
