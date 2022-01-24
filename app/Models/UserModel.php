@@ -44,8 +44,9 @@ class UserModel extends JsonModel
         } else {
             if ($this->findAll() == false) {
                 $new_user = array(
-                    "view_name" => "Chaim",
+                    "company" => "CTime",
                     "username" => "admin",
+                    "view_name" => "Chaim",
                     "email" => "admin@email.com",
                     "role" => "admin",
                     "password" => "admin",
@@ -60,7 +61,7 @@ class UserModel extends JsonModel
 
     function delete_user($id)
     {
-        $data_files = glob(DATAPATH . "{timers/*/*/,users/}$id*.json",GLOB_BRACE );
+        $data_files = glob(DATAPATH . "{timers/*/*/,users/}$id*.json", GLOB_BRACE);
         foreach ($data_files as $file) {
             if (strpos($file, $id) !== false) {
                 if (file_exists($file)) {

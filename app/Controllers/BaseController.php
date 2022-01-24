@@ -53,23 +53,16 @@ class BaseController extends Controller
 
         // Preload any models, libraries, etc, here.
         helper("time");
-        if (!file_exists(DATAPATH)) {
-            mkdir(DATAPATH . 'users', 0644, true);
-            mkdir(DATAPATH . 'timers', 0644, true);
-        }
+        $this->userModel = model('App\Models\UserModel');
+        $this->timerModel = model('App\Models\TimerModel');
+
 
         $this->session = \Config\Services::session();
         $this->session->start();
         $time = new Time();
         $this->now = $time->now($this->session->timezone);
-        $timers_current_date = DATAPATH . 'timers/' . $this->now->getYear() . "/" . $this->now->getMonth() . "/";
-        if (!file_exists($timers_current_date)) {
-            mkdir($timers_current_date, 0644, true);
-        }
-        $this->userModel = model('App\Models\UserModel');
-        $this->timerModel = model('App\Models\TimerModel');
 
-
+        $this->init_folders();
 
         $this->data = array();
         $this->data["message_type"] = "primary";
@@ -87,6 +80,20 @@ class BaseController extends Controller
                 "timezone" => $this->session->timezone,
                 "role" => $this->session->role,
             ];
+        }
+    }
+
+    function init_folders()
+    {
+        $data_folders = array('users', 'timers', 'projects');
+
+        $timers_current_date = 'timers/' . $this->now->getYear() . "/" . $this->now->getMonth() . "/";
+        $data_folders[] = $timers_current_date;
+
+        foreach ($data_folders as $folder) {
+            if (!file_exists(DATAPATH . $folder)) {
+                mkdir(DATAPATH . $folder, 0644, true);
+            }
         }
     }
 }

@@ -10,6 +10,7 @@ class User extends Entity
 
     protected $attributes = [
         'id'         => null,
+        "company" => "CTime",
         'username'   => null,
         'view_name'  => null,
         'email'      => null,
@@ -49,7 +50,7 @@ class User extends Entity
 
     public function setRegisterString()
     {
-        $this->attributes['register_string'] = mt_rand(10000,99999);
+        $this->attributes['register_string'] = mt_rand(10000, 99999);
         return $this;
     }
 
