@@ -7,10 +7,10 @@ use CodeIgniter\Entity\Entity;
 class Timer extends Entity
 {
     protected $attributes = [
+        'holiday'      => null,
+        'sickday'      => null,
         'in'         => null,
         'out'        => null,
         'total'      => null,
-        'holiday'      => null,
-        'sickday'      => null,
     ];
 }

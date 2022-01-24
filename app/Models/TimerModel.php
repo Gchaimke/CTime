@@ -95,7 +95,7 @@ class TimerModel extends JsonModel
         } else {
             return array(
                 "action" => "none",
-                "time" => print_r($all_timers)
+                "time" => ""
             );
         }
     }
