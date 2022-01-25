@@ -55,6 +55,7 @@ class BaseController extends Controller
         helper("time");
         $this->userModel = model('App\Models\UserModel');
         $this->timerModel = model('App\Models\TimerModel');
+        $this->projectModel = model('App\Models\ProjectModel');
 
 
         $this->session = \Config\Services::session();

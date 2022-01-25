@@ -28,7 +28,7 @@ class UserModel extends JsonModel
             $new_user->role = $user["role"];
             $new_user->setPassword($user["password"]);
             $new_user->setCreatedAt(date("Y-m-d H:i:s"));
-            file_put_contents($file, json_encode($new_user));
+            file_put_contents($file, json_encode($new_user,JSON_UNESCAPED_UNICODE));
             return true;
         }
         return false;

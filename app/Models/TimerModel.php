@@ -13,6 +13,12 @@ class TimerModel extends JsonModel
     protected $returnType    = \App\Entities\ClockTime::class;
     protected $useTimestamps = true;
 
+    function __construct()
+    {
+        parent::__construct();
+        helper("time");
+    }
+
     function get_timers($year, $month, $user_id)
     {
         $timers_file =  DATAPATH . "timers/$year/$month/$user_id.json";
@@ -26,7 +32,7 @@ class TimerModel extends JsonModel
     function put_timers($timers_file, $data)
     {
         ksort($data);
-        return file_put_contents($timers_file, json_encode($data));
+        return file_put_contents($timers_file, json_encode($data, JSON_UNESCAPED_UNICODE));
     }
 
     public function add_time($day, $month, $year, $time, $action, $user_id)
@@ -54,28 +60,13 @@ class TimerModel extends JsonModel
             $timers[$date] = $new_date;
         } else {
             $timers[$date][$action][] = $time;
-            $timers[$date]["total"] = $this->count_total($timers[$date]);
+            $timers[$date]["total"] = count_total($timers[$date]);
         }
 
         $this->put_timers($timers_file, $timers);
     }
 
-    public function count_total($timers)
-    {
-        $total = 0;
-        if (isset($timers["out"])) {
-            foreach ($timers["out"] as $key => $value) {
-                if (isset($timers["in"][$key])) {
-                    $sub_total = (strtotime($value) - strtotime($timers["in"][$key])) / 60;
-                    if ($sub_total < 0) {
-                        $sub_total = (24 * 60) - abs($sub_total);
-                    }
-                    $total += $sub_total;
-                }
-            }
-        }
-        return $total;
-    }
+
 
     public function get_last_action($user_id)
     {

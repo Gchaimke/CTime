@@ -29,11 +29,9 @@ class User extends BaseController
 
     public function projects()
     {
-        $year = isset($_GET["year"]) ? $_GET["year"] : $this->now->getYear();
-        $month = isset($_GET["month"]) ? $_GET["month"] : $this->now->getMonth();
         if (isset($this->data['user'])) {
-            $this->data["timers"] = $this->timerModel->get_timers($year, $month, $this->data['user']['id']);
-            $this->data["last_action"] = $this->timerModel->get_last_action($this->data["user"]["id"]);
+            $this->data["projects"] = $this->projectModel->whereInArray("users", $this->data['user']['id']);
+            // print_r($this->projectModel->add_time("d5e99ab4-fb3e-4c14-b7aa-cc612d4ed72c","in", $this->now->toDateTimeString()));
         } else {
             return redirect()->to("/login");
         }
@@ -53,6 +51,27 @@ class User extends BaseController
             $this->data['user']['id']
         );
         echo "$action: $time";
+    }
+
+    function action_project()
+    {
+        $project = array(
+            "action" => $this->request->getVar('action'),
+            "project_name" => $this->request->getVar('project_name'),
+            "project_id" => $this->request->getVar('project_id'),
+            "user_id" => $this->data['user']['id'],
+            "time" => $this->now->toDateTimeString(),
+        );
+
+        if ($project["action"] == "project_start") {
+            $return = $this->projectModel->add_project($project);
+        } else {
+            $return = $this->projectModel->add_time($project);
+        }
+
+        if (!$return) {
+            echo "error";
+        }
     }
 
     function register()
