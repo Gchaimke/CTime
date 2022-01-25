@@ -6,11 +6,7 @@ function convertToHoursMins($time, $format = '%02d:%02d')
     }
     $hours = floor($time / 60);
     $minutes = ($time % 60);
-    $seconds = ($time - floor($time)) * 100;
-    if ($seconds >= 60) {
-        $minutes++;
-        $seconds -= 60;
-    }
+    $seconds = ($time - floor($time)) * 60;
     return sprintf($format, $hours, $minutes, $seconds);
 }
 
