@@ -1,12 +1,17 @@
 <?php
 function convertToHoursMins($time, $format = '%02d:%02d')
 {
-    if ($time < 1) {
+    if ($time < 0) {
         return;
     }
     $hours = floor($time / 60);
     $minutes = ($time % 60);
-    return sprintf($format, $hours, $minutes);
+    $seconds = ($time - floor($time)) * 100;
+    if ($seconds >= 60) {
+        $minutes++;
+        $seconds -= 60;
+    }
+    return sprintf($format, $hours, $minutes, $seconds);
 }
 
 function count_total($timers)

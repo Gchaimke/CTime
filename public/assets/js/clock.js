@@ -35,3 +35,26 @@ function showTime(am) {
     setTimeout(showTime, 1000);
 }
 showTime(24);
+
+function count_time() {
+    let current_time = $(".total-timeactive").text();
+    let time = current_time.split(":");
+    h = parseInt(time[0]);
+    m = parseInt(time[1]);
+    s = parseInt(time[2]);
+    s++;
+    if (s >= 60) {
+        m++;
+        s = 0;
+    }
+    if (m >= 60) {
+        h++;
+        m = 0;
+    }
+    h = (h < 10) ? "0" + h : h;
+    m = (m < 10) ? "0" + m : m;
+    s = (s < 10) ? "0" + s : s;
+    $(".total-timeactive").text(h + ":" + m + ":" + s)
+}
+
+setInterval(count_time, 1000);

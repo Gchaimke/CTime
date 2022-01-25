@@ -17,21 +17,24 @@
             $in = "";
             $out = "";
             $active = "";
+            $total = $project->total;
             if ($project->is_started) {
                 $in = "disabled";
                 $active = "active";
+                $total = convertToHoursMins($active_project_time, "%02d:%02d:%02d");
             } else {
                 $out = "disabled";
+                $total = convertToHoursMins($project->total);
             } ?>
             <div class="row project-row <?= $active ?>">
                 <span class="col project-name"><?= $project->project_name ?></span>
                 <span class="col"><?= $project->is_started ? "Started" : "Paused" ?></span>
-                <span class="col">Total: <?= convertToHoursMins($project->total)  ?></span>
+                <span class="col">Total: <span class=" total-time<?= $active ?>"><?= $total  ?></span></span>
                 <span class="col project-bnts">
-                    <button class="btn btn-success action_btn" data-action="in" data-project-id="<?= $project->id ?>" <?= $in ?>>
+                    <button class="btn btn-success action_btn mx-1 my-1" data-action="in" data-project-id="<?= $project->id ?>" <?= $in ?>>
                         <i class="bi bi-play" style="font-size: 1.5rem;"></i>
                     </button>
-                    <button class="btn btn-danger action_btn" data-action="out" data-project-id="<?= $project->id ?>" <?= $out ?>>
+                    <button class="btn btn-danger action_btn mx-1 my-1" data-action="out" data-project-id="<?= $project->id ?>" <?= $out ?>>
                         <i class="bi bi-stop" style="font-size: 1.5rem;"></i>
                     </button>
                 </span>
