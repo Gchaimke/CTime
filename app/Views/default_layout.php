@@ -18,10 +18,10 @@ if (session()->getFlashdata('error') != "" || service('validation')->listErrors(
     <title>CTime <?= APP_VARSION ?></title>
     <meta name="description" content="CTime System">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
+    <link rel="shortcut icon" type="image/png" href="<?=site_url('/favicon.ico')?>" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="/assets/css/main.css?<?= APP_VARSION ?>">
+    <link rel="stylesheet" href="<?=base_url('/assets/css/main.css')?>?<?= APP_VARSION ?>">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
 </head>
 
@@ -33,7 +33,7 @@ if (session()->getFlashdata('error') != "" || service('validation')->listErrors(
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <a class="navbar-brand" href="/"><i class="bi bi-clock-history"></i> CTime v<?= APP_VARSION ?></a>
+                <a class="navbar-brand" href="<?=site_url('/')?>"><i class="bi bi-clock-history"></i> CTime v<?= APP_VARSION ?></a>
                 <span class="clock-bar">
                     <span class="date" id="date"><?= $now->toDateString() ?></span>
                     <span class="clock" id="clock"></span>
@@ -41,23 +41,23 @@ if (session()->getFlashdata('error') != "" || service('validation')->listErrors(
                 <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item mx-3">
-                            <a class="nav-link <?= uri_string() == "/" ? "active" : "" ?> " aria-current="" href="/"><i class="bi bi-house-door" style="font-size: 1.5rem;"></i></a>
+                            <a class="nav-link <?= uri_string() == "/" ? "active" : "" ?> " aria-current="" href="<?=site_url('/')?>"><i class="bi bi-house-door" style="font-size: 1.5rem;"></i></a>
                         </li>
                         <?php if ($logged_in) : ?>
-                            <li class="nav-item"><a class="nav-link <?= uri_string() == "user/month" ? "active" : "" ?>" href="/user/month"><i class="bi bi-calendar3" style="font-size: 1.5rem;"></i></a> </li>
-                            <li class="nav-item"><a class="nav-link <?= uri_string() == "user/projects" ? "active" : "" ?>" href="/user/projects"><i class="bi bi-card-list" style="font-size: 1.5rem;"></i></a> </li>
+                            <li class="nav-item"><a class="nav-link <?= uri_string() == "user/month" ? "active" : "" ?>" href="<?=site_url('/user/month')?>"><i class="bi bi-calendar3" style="font-size: 1.5rem;"></i></a> </li>
+                            <li class="nav-item"><a class="nav-link <?= uri_string() == "user/projects" ? "active" : "" ?>" href="<?=site_url('/user/projects')?>"><i class="bi bi-card-list" style="font-size: 1.5rem;"></i></a> </li>
                         <?php endif ?>
                     </ul>
                     <ul class="navbar-nav d-flex">
                         <?php if ($role == "admin") : ?>
-                            <li class="nav-item"> <a class="nav-link <?= uri_string() == "admin" ? "active" : "" ?>" href="/admin"><i class="bi bi-tools" style="font-size: 1.5rem;"></i></a></li>
+                            <li class="nav-item"> <a class="nav-link <?= uri_string() == "admin" ? "active" : "" ?>" href="<?=site_url('/admin')?>"><i class="bi bi-tools" style="font-size: 1.5rem;"></i></a></li>
                         <?php endif ?>
                         <?php if ($logged_in) : ?>
-                            <li class="nav-item mx-3"> <a class="nav-link <?= uri_string() == "user" ? "active" : "" ?>" href="/user"><i class="bi bi-gear" style="font-size: 1.5rem;"></i></a> </li>
-                            <li class="nav-item"><a class="nav-link" href="/login"><i class="bi bi-power" style="font-size: 1.5rem;"></i></a> </li>
+                            <li class="nav-item mx-3"> <a class="nav-link <?= uri_string() == "user" ? "active" : "" ?>" href="<?=site_url('/user')?>"><i class="bi bi-gear" style="font-size: 1.5rem;"></i></a> </li>
+                            <li class="nav-item"><a class="nav-link" href="<?=site_url('/login')?>"><i class="bi bi-power" style="font-size: 1.5rem;"></i></a> </li>
                         <?php else : ?>
                             <li class="nav-item">
-                                <a class="nav-link" href="/login">Login</a>
+                                <a class="nav-link" href="<?=site_url('/login')?>">Login</a>
                             </li>
                         <?php endif ?>
                     </ul>
@@ -93,7 +93,7 @@ if (session()->getFlashdata('error') != "" || service('validation')->listErrors(
     </footer>
     <!-- SCRIPTS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <script src="/assets/js/clock.js?<?= APP_VARSION ?>" crossorigin="anonymous"></script>
+    <script src="<?=base_url('/assets/js/clock.js')?>?<?= APP_VARSION ?>" crossorigin="anonymous"></script>
 </body>
 
 </html>

@@ -31,13 +31,15 @@ class User extends BaseController
     {
         if (isset($this->data['user'])) {
             $this->data["projects"] = $this->projectModel->whereInArray("users", $this->data['user']['id']);
-            foreach ($this->data["projects"] as $project) {
-                if ($project->is_started) {
-                    $project_timers = (array)$project->timers;
-                    $project_timers["out"][] = $this->now;
-                    $project->timers->out = $project_timers["out"];
-                    $total = count_total((array)$project->timers);
-                    $this->data["active_project_time"] = $total;
+            if ($this->data["projects"]) {
+                foreach ($this->data["projects"] as $project) {
+                    if ($project->is_started) {
+                        $project_timers = (array)$project->timers;
+                        $project_timers["out"][] = $this->now;
+                        $project->timers->out = $project_timers["out"];
+                        $total = count_total((array)$project->timers);
+                        $this->data["active_project_time"] = $total;
+                    }
                 }
             }
         } else {

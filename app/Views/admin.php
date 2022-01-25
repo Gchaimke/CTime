@@ -45,7 +45,7 @@
 <!-- MODAL -->
 
 <?= $this->section('modal_content') ?>
-<form id="new_user_form" method="post" action="/user/register">
+<form id="new_user_form" method="post" action="<?=site_url('/user/register')?>">
     <?= csrf_field() ?>
     <div class="form-floating mb-3">
         <input type="text" class="form-control" id="username" name="username" placeholder="username" required>
