@@ -28,7 +28,6 @@
             } ?>
             <div class="row project-row <?= $active ?>">
                 <span class="col project-name"><?= $project->project_name ?></span>
-                <span class="col"><?= $project->is_started ? "Started" : "Paused" ?></span>
                 <span class="col">Total: <span class=" total-time<?= $active ?>"><?= $total  ?></span></span>
                 <span class="col project-bnts">
                     <button class="btn btn-success action_btn mx-1 my-1" data-action="in" data-project-id="<?= $project->id ?>" <?= $in ?>>
@@ -53,7 +52,7 @@
         if (project_id == "" && project_name == "") {
             alert("Project name is epmty");
         } else {
-            $.post("/user/action_project", {
+            $.post("<?=site_url('/user/action_project')?>", {
                 action: action,
                 project_id: project_id,
                 project_name: project_name,

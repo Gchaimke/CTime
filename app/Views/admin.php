@@ -88,7 +88,7 @@
 <script>
     $(".delete_user").on("click", function() {
         let user_id = $(this).closest('tr').attr('id');
-        $.post("/user/delete", {
+        $.post("<?=site_url('/user/delete')?>", {
             id: user_id,
             csrf_test_name: "<?= csrf_hash() ?>",
         }).done(function(o) {
