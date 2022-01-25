@@ -37,16 +37,16 @@ class ProjectModel extends JsonModel
         }
     }
 
-    function add_time($id, $action, $time)
+    function add_time(array $project)
     {
-        if ($id != "") {
-            $file = DATAPATH . "projects/$id.json";
-            $project = json_decode(file_get_contents($file), true);
+        if ($project["user_id"] != "") {
+            $file = DATAPATH . "projects/{$project['user_id']}.json";
             if (file_exists($file)) {
-                $project["timers"][$action][] = $time;
-                $total = count_total($project['timers']);
-                $project["total"] = $total;
-                file_put_contents($file, json_encode($project, JSON_UNESCAPED_UNICODE));
+                $current_project = json_decode(file_get_contents($file), true);
+                $current_project["timers"][$project['action']][] = $project["time"];
+                $total = count_total($current_project['timers']);
+                $current_project["total"] = $total;
+                file_put_contents($file, json_encode($current_project, JSON_UNESCAPED_UNICODE));
                 return true;
             }
         }

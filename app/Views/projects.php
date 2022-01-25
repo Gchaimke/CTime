@@ -17,10 +17,10 @@
             <div class="row project-row">
                 <span class="col project-name"><?= $project->project_name ?></span>
                 <span class="col project-bnts">
-                    <button class="btn btn-success action_btn" data-action="project_in" data-project-id="<?= $project->id ?>">
+                    <button class="btn btn-success action_btn" data-action="in" data-project-id="<?= $project->id ?>">
                         <i class="bi bi-play" style="font-size: 1.5rem;"></i>
                     </button>
-                    <button class="btn btn-danger action_btn" data-action="project_out" data-project-id="<?= $project->id ?>" disabled>
+                    <button class="btn btn-danger action_btn" data-action="out" data-project-id="<?= $project->id ?>" disabled>
                         <i class="bi bi-stop" style="font-size: 1.5rem;"></i>
                     </button>
                 </span>
@@ -46,9 +46,9 @@
                 csrf_test_name: "<?= csrf_hash() ?>",
             }).done(function(o) {
                 if (o == "error") {
-                    alert("Error");
+                    alert("Error" );
                 }
-                location.reload();
+                // location.reload();
             });
         }
     });
