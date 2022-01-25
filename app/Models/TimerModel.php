@@ -50,15 +50,18 @@ class TimerModel extends JsonModel
             $new_date = new \App\Entities\Timer;
             if ($action == "holiday" || $action == "sickday") {
                 $new_date->$action = true;
-                $new_date->in = array();
                 $new_date->total = 8.5 * 60;
             } else {
                 $new_date->in = array($time);
-                $new_date->total = 0;
+                $new_date->is_started = true;
             }
-            $new_date->out = array();
             $timers[$date] = $new_date;
         } else {
+            if ($action == "in") {
+                $timers[$date]["is_started"] = true;
+            } else {
+                $timers[$date]["is_started"] = false;
+            }
             $timers[$date][$action][] = $time;
             $timers[$date]["total"] = count_total($timers[$date]);
         }
@@ -89,13 +92,15 @@ class TimerModel extends JsonModel
                     "time" => ""
                 );
             }
-            $diff = count($timers[$date_key]["in"]) >  count($timers[$date_key]["out"]);
-            if ($diff) {
+
+            $status = $timers[$date_key]["is_started"];
+            if ($status) {
                 return array(
                     "action" => "in",
                     "time" => end($timers[$date_key]["in"])
                 );
             } else {
+
                 return array(
                     "action" => "out",
                     "time" => end($timers[$date_key]["out"])

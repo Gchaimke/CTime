@@ -35,3 +35,7 @@
 span.col.project-bnts {
     text-align: right;
 }
+
+.row.project-row.active {
+    background: aquamarine;
+  }

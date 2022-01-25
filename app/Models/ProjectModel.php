@@ -28,7 +28,7 @@ class ProjectModel extends JsonModel
             $new_project->users = array($project["user_id"]);
             $new_project->managers = array($project["user_id"]);
             $new_project->addTimer($project["time"], "in");
-            $new_project->setCreatedAt($project["time"]);
+            $new_project->created_at = $project["time"];
             file_put_contents($file, json_encode($new_project, JSON_UNESCAPED_UNICODE));
             return true;
         } catch (\Throwable $th) {
@@ -39,14 +39,51 @@ class ProjectModel extends JsonModel
 
     function add_time(array $project)
     {
-        if ($project["user_id"] != "") {
-            $file = DATAPATH . "projects/{$project['user_id']}.json";
+        if ($project["project_id"] != "") {
+            $file = DATAPATH . "projects/{$project['project_id']}.json";
             if (file_exists($file)) {
                 $current_project = json_decode(file_get_contents($file), true);
+                if ($project['action'] == "in") {
+                    $current_project["is_started"] = true;
+                    $this->stop_another($project['user_id'], $project['project_id'], $project["time"]);
+                } else {
+                    $current_project["is_started"] = false;
+                }
                 $current_project["timers"][$project['action']][] = $project["time"];
                 $total = count_total($current_project['timers']);
                 $current_project["total"] = $total;
                 file_put_contents($file, json_encode($current_project, JSON_UNESCAPED_UNICODE));
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function stop_another($user_id, $project_id, $time)
+    {
+        $user_projects = $this->whereInArray("users", $user_id);
+        foreach ($user_projects as $project) {
+            if ($project->id == $project_id) {
+                continue;
+            }
+            if ($project->is_started) {
+                $project->is_started = false;
+                $project_timers = (array)$project->timers;
+                $project_timers["out"][] = $time;
+                $project->timers->out = $project_timers["out"];
+                $total = count_total((array)$project->timers);
+                $project->total = $total;
+                $this->update_project($project, $project->id);
+            }
+        }
+    }
+
+    function update_project($project, $project_id)
+    {
+        if ($project_id != "") {
+            $file = DATAPATH . "projects/$project_id.json";
+            if (file_exists($file)) {
+                file_put_contents($file, json_encode($project, JSON_UNESCAPED_UNICODE));
                 return true;
             }
         }

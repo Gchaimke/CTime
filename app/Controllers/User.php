@@ -63,14 +63,16 @@ class User extends BaseController
             "time" => $this->now->toDateTimeString(),
         );
 
-        if ($project["action"] == "project_start") {
+        if ($project["action"] == "new_project") {
             $return = $this->projectModel->add_project($project);
+            if (!$return) {
+                echo "Error: Can't create new project.";
+            }
         } else {
             $return = $this->projectModel->add_time($project);
-        }
-
-        if (!$return) {
-            echo "error";
+            if (!$return) {
+                echo "Error: Can't add time to project.";
+            }
         }
     }
 

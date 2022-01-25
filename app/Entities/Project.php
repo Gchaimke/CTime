@@ -15,15 +15,9 @@ class Project extends Entity
         'password'   => null,
         'timers'       => array("in" => array(), "out" => array()),
         'total'  => 0,
-        'created_at'  => 0,
+        'is_started'  => false,
+        'created_at'  => null,
     ];
-
-
-    public function setCreatedAt($time)
-    {
-        $this->attributes['created_at'] = $time;
-        return $this;
-    }
 
     public function addTimer($time, $action)
     {

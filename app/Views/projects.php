@@ -6,21 +6,32 @@
             <input type="text" class="form-control" id="project_name" placeholder="awsome project">
             <label for="project_name">New Project Name</label>
         </div>
-        <button class="btn btn-success action_btn" data-action="project_start"><i class="bi bi-plus-circle" style="font-size: 1.5rem;"></i></button>
+        <button class="btn btn-success action_btn" data-action="new_project"><i class="bi bi-plus-circle" style="font-size: 1.5rem;"></i></button>
     </div>
 </center>
 <?php if ($projects) : ?>
 
     <div class="content projects">
         <?php foreach ($projects as $project) : ?>
-
-            <div class="row project-row">
+            <?php
+            $in = "";
+            $out = "";
+            $active = "";
+            if ($project->is_started) {
+                $in = "disabled";
+                $active = "active";
+            } else {
+                $out = "disabled";
+            } ?>
+            <div class="row project-row <?= $active ?>">
                 <span class="col project-name"><?= $project->project_name ?></span>
+                <span class="col"><?= $project->is_started ? "Started" : "Paused" ?></span>
+                <span class="col">Total: <?= convertToHoursMins($project->total)  ?></span>
                 <span class="col project-bnts">
-                    <button class="btn btn-success action_btn" data-action="in" data-project-id="<?= $project->id ?>">
+                    <button class="btn btn-success action_btn" data-action="in" data-project-id="<?= $project->id ?>" <?= $in ?>>
                         <i class="bi bi-play" style="font-size: 1.5rem;"></i>
                     </button>
-                    <button class="btn btn-danger action_btn" data-action="out" data-project-id="<?= $project->id ?>" disabled>
+                    <button class="btn btn-danger action_btn" data-action="out" data-project-id="<?= $project->id ?>" <?= $out ?>>
                         <i class="bi bi-stop" style="font-size: 1.5rem;"></i>
                     </button>
                 </span>
@@ -45,10 +56,10 @@
                 project_name: project_name,
                 csrf_test_name: "<?= csrf_hash() ?>",
             }).done(function(o) {
-                if (o == "error") {
-                    alert("Error" );
+                if (o.includes("Error")) {
+                    alert(o);
                 }
-                // location.reload();
+                location.reload();
             });
         }
     });
