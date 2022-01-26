@@ -27,7 +27,6 @@ class ProjectModel extends JsonModel
             $new_project->project_name = $project["project_name"];
             $new_project->users = array($project["user_id"]);
             $new_project->managers = array($project["user_id"]);
-            $new_project->addTimer($project["time"], "in");
             $new_project->created_at = $project["time"];
             file_put_contents($file, json_encode($new_project, JSON_UNESCAPED_UNICODE));
             return true;

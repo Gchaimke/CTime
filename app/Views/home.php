@@ -26,7 +26,7 @@ if ($last_action["action"] == "in") {
 <script>
     $(".action_btn").on("click", function() {
         let action = $(this).attr("data-action");
-        $.post("/user/action", {
+        $.post("<?=site_url('/user/action')?>", {
             action: action,
             csrf_test_name: "<?= csrf_hash() ?>",
         }).done(function(o) {
