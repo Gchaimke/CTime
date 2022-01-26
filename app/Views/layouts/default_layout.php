@@ -1,4 +1,5 @@
 <?php
+// force_https();
 $logged_in = false;
 if (isset($user) && $user['logged_in'] != "") {
     $logged_in = true;
@@ -12,9 +13,7 @@ if (session()->getFlashdata('error') != "" || service('validation')->listErrors(
 ?>
 <!DOCTYPE html>
 <html lang="en" class="h-100">
-
 <?= $this->include('/layouts/head') ?>
-
 <body class="d-flex flex-column h-100">
     <header>
         <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
@@ -69,7 +68,6 @@ if (session()->getFlashdata('error') != "" || service('validation')->listErrors(
         </div>
     </main>
     <?= $this->include('/layouts/footer') ?>
-    <script src="<?= base_url(env("app.subfolder", "") . '/assets/js/clock.js') ?>?<?= APP_VARSION ?>" crossorigin="anonymous"></script>
 </body>
 
 </html>
