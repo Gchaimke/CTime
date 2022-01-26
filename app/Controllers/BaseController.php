@@ -53,6 +53,7 @@ class BaseController extends Controller
 
         // Preload any models, libraries, etc, here.
         helper("time");
+        helper('html');
         $this->userModel = model('App\Models\UserModel');
         $this->timerModel = model('App\Models\TimerModel');
         $this->projectModel = model('App\Models\ProjectModel');
