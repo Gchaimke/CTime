@@ -1,11 +1,11 @@
 <footer class="footer mt-auto py-3 bg-light">
     <div class="container">
         <div class="row">
-            <div class="col copyrights">
+            <div class="col-md copyrights text-center">
                 <span>CTime&copy; <?= date('Y') ?> Chaim Gorbov</span>
                 <span>&nbsp; ENV: <?= ENVIRONMENT ?></p>
             </div>
-            <div class="col environment">
+            <div class="col-md environment text-center">
                 <p>rendered time {elapsed_time}s</p>
             </div>
         </div>

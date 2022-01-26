@@ -21,6 +21,7 @@ class User extends BaseController
         $month = isset($_GET["month"]) ? $_GET["month"] : $this->now->getMonth();
         if (isset($this->data['user'])) {
             $this->data["timers"] = $this->timerModel->get_timers($year, $month, $this->data['user']['id']);
+            $this->data["last_action"] = $this->timerModel->get_last_action($this->data["user"]["id"]);
         } else {
             return redirect()->to("/login");
         }

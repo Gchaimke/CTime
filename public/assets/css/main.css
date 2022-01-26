@@ -6,6 +6,10 @@
     width: 100%;
 }
 
+.hidden, .edit-project {
+    display: none;
+}
+
 .btn-close {
     position: absolute;
     right: 15px;
@@ -18,17 +22,12 @@
     align-items: center;
 }
 
-.content.projects {
-    background: aliceblue;
-    padding: 15px;
-}
-
 .row.project-row {
     align-items: center;
     background: #f0f6ff;
     border: 1px solid;
     border-radius: 10px;
-    margin: 15px;
+    margin: 15px 0;
     box-shadow: 1px 5px 4px 1px #cdcdcd;
 }
 
