@@ -1,7 +1,7 @@
 <?= $this->extend('/layouts/default_layout') ?>
 <?= $this->section('content') ?>
 <div class="row" style="align-items: center;">
-    <div class="col input-group mb-3">
+    <div class="col-md input-group mb-2">
         <div class="form-floating col-10">
             <input type="text" class="form-control" id="project_name" placeholder="awsome project">
             <label for="project_name">New Project Name</label>
@@ -20,28 +20,29 @@
         $active = "";
         $total = $project->total;
         if ($project->is_started) {
-            $in = "disabled";
+            $in = "hidden";
             $active = "active";
             $total = convertToHoursMins($active_project_time, "%02d:%02d:%02d");
         } else {
-            $out = "disabled";
+            $out = "hidden";
             $total = convertToHoursMins($project->total);
         } ?>
         <div class="row project-row <?= $active ?>">
-            <span id="<?= $project->id ?>" class="col-1 btn edit-project"><i class="bi bi-pencil-square"></i></span>
+            <span id="<?= $project->id ?>" class="col-1 btn edit-project" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="bi bi-pencil-square"></i></span>
             <span class="col project-name"><?= $project->project_name ?></span>
             <span class="col">Total: <span class=" total-time<?= $active ?>"><?= $total  ?></span></span>
             <span class="col project-bnts">
-                <button class="btn btn-success action_btn mx-1 my-1" data-action="in" data-project-id="<?= $project->id ?>" <?= $in ?>>
+                <button class="btn btn-success action_btn mx-1 my-1 <?= $in ?>" data-action="in" data-project-id="<?= $project->id ?>">
                     <i class="bi bi-play" style="font-size: 1.5rem;"></i>
                 </button>
-                <button class="btn btn-danger action_btn mx-1 my-1" data-action="out" data-project-id="<?= $project->id ?>" <?= $out ?>>
+                <button class="btn btn-danger action_btn mx-1 my-1 <?= $out ?>" data-action="out" data-project-id="<?= $project->id ?>">
                     <i class="bi bi-stop" style="font-size: 1.5rem;"></i>
                 </button>
             </span>
         </div>
     <?php endforeach ?>
 <?php endif ?>
+<?= $this->include('/elements/project_form') ?>
 <script>
     $(".action_btn").on("click", function() {
         let action = $(this).attr("data-action");
