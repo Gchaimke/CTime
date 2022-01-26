@@ -1,4 +1,4 @@
-<?= $this->extend('default_layout') ?>
+<?= $this->extend('/layouts/default_layout') ?>
 <?= $this->section('content') ?>
 <header>
 	<div class="heroe">

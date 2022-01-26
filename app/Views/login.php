@@ -1,4 +1,4 @@
-<?= $this->extend('clean_layout') ?>
+<?= $this->extend('/layouts/clean_layout') ?>
 <?= $this->section('content') ?>
 <style>
 	html,
@@ -46,11 +46,18 @@
 		border-radius: 30px;
 		background: #ababab66;
 	}
+
+	footer.footer.mt-auto.py-3.bg-light {
+		background: #ffffff00 !important;
+		position: absolute;
+		bottom: 0;
+		width: 100%;
+	}
 </style>
 <main class="form-signin">
-	<form class="login-form" method="post" action="<?=site_url('/login/try_login')?>">
+	<form class="login-form" method="post" action="<?= site_url('/login/try_login') ?>">
 		<?= csrf_field() ?>
-		<a href="<?=site_url('/')?>"><img class="mb-4" src="<?=base_url(env("app.subfolder", "") .'/assets/icons/clock-history.svg')?>" alt="clock" width="172"></a>
+		<a href="<?= site_url('/') ?>"><img class="mb-4" src="<?= base_url(env("app.subfolder", "") . '/assets/icons/clock-history.svg') ?>" alt="clock" width="172"></a>
 		<h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
 		<div class="form-floating">

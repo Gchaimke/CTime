@@ -1,4 +1,4 @@
-<?= $this->extend('default_layout') ?>
+<?= $this->extend('/layouts/default_layout') ?>
 <?= $this->section('content') ?>
 <?php
 $month = isset($_GET['month']) ? $_GET['month'] : $now->getMonth();

@@ -1,4 +1,4 @@
-<?= $this->extend('default_layout') ?>
+<?= $this->extend('/layouts/default_layout') ?>
 <?= $this->section('content') ?>
 <center>
     <div class="input-group mb-3">
