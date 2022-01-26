@@ -23,6 +23,9 @@
 
 # Always use a trailing slash on your base URL
 #--------------------------------------------------------------------
+#
+# app.subfolder = 'public'
+#
 # app.baseURL = 'http://localhost/'
 
 # app.forceGlobalSecureRequests = false
