@@ -24,9 +24,7 @@
 # Always use a trailing slash on your base URL
 #--------------------------------------------------------------------
 #
-# app.subfolder = 'public'
-#
-# app.baseURL = 'http://localhost/'
+# app.baseURL = 'http://ci4/ctime/'
 
 # app.forceGlobalSecureRequests = false
 
