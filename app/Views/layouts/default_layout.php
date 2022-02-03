@@ -33,8 +33,8 @@ if (session()->getFlashdata('error') != "" || service('validation')->listErrors(
                             <a class="nav-link <?= uri_string() == "/" ? "active" : "" ?> " aria-current="" href="<?= site_url('/') ?>"><i class="bi bi-house-door" style="font-size: 1.5rem;"></i></a>
                         </li>
                         <?php if ($logged_in) : ?>
-                            <li class="nav-item"><a class="nav-link <?= uri_string() == "user/month" ? "active" : "" ?>" href="<?= site_url('/user/month') ?>"><i class="bi bi-calendar3" style="font-size: 1.5rem;"></i></a> </li>
-                            <li class="nav-item"><a class="nav-link <?= uri_string() == "user/projects" ? "active" : "" ?>" href="<?= site_url('/user/projects') ?>"><i class="bi bi-card-list" style="font-size: 1.5rem;"></i></a> </li>
+                            <li class="nav-item"><a class="nav-link <?= uri_string() == "month" ? "active" : "" ?>" href="<?= site_url('month') ?>"><i class="bi bi-calendar3" style="font-size: 1.5rem;"></i></a> </li>
+                            <li class="nav-item"><a class="nav-link <?= uri_string() == "projects" ? "active" : "" ?>" href="<?= site_url('projects') ?>"><i class="bi bi-card-list" style="font-size: 1.5rem;"></i></a> </li>
                         <?php endif ?>
                     </ul>
                     <ul class="navbar-nav d-flex">

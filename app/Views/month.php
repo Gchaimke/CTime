@@ -85,7 +85,7 @@ if (isset($user)) : ?>
 <script>
 	$(".action_btn").on("click", function() {
 		let action = $(this).attr("data-action");
-		$.post("<?= site_url('/user/action') ?>", {
+		$.post("<?= site_url('/month/action') ?>", {
 			action: action,
 			csrf_test_name: "<?= csrf_hash() ?>",
 		}).done(function(o) {

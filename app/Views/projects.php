@@ -28,7 +28,9 @@
             $total = convertToHoursMins($project->total);
         } ?>
         <div class="row project-row <?= $active ?>">
-            <span id="<?= $project->id ?>" class="col-1 btn edit-project" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="bi bi-pencil-square"></i></span>
+            <span class="col-1 btn edit-project" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-project-id="<?= $project->id ?>" data-project-name="<?= $project->project_name ?>">
+                <i class="bi bi-pencil-square"></i>
+            </span>
             <span class="col project-name"><?= $project->project_name ?></span>
             <span class="col">Total: <span class=" total-time<?= $active ?>"><?= $total  ?></span></span>
             <span class="col project-bnts">
@@ -39,6 +41,7 @@
                     <i class="bi bi-stop" style="font-size: 1.5rem;"></i>
                 </button>
             </span>
+            <span class="col-1 btn delete-project" data-project-id="<?= $project->id ?>" data-project-name="<?= $project->project_name ?>"><i class="bi bi-trash"></i></span>
         </div>
     <?php endforeach ?>
 <?php endif ?>
@@ -54,7 +57,7 @@
         if (project_id == "" && project_name == "") {
             alert("Project name is epmty");
         } else {
-            $.post("<?= site_url('/user/action_project') ?>", {
+            $.post("<?= site_url('/projects/action_project') ?>", {
                 action: action,
                 project_id: project_id,
                 project_name: project_name,
@@ -70,6 +73,31 @@
 
     $('.edit-mode').on("click", function() {
         $(".edit-project").toggle();
-    })
+        $(".delete-project").toggle();
+    });
+
+    $(document).on("click", ".edit-project", function() {
+        let project_id = $(this).attr("data-project-id");
+        let project_name = $(this).attr("data-project-name");
+        $(".form-project-name").val(project_name);
+        $(".form-project-id").val(project_id);
+    });
+
+    $(".delete-project").on("click", function() {
+        let project_id = $(this).attr("data-project-id");
+        let project_name = $(this).attr("data-project-name");
+        let is_confirmed = confirm(`Delete project "${project_name}"?`);
+        if (is_confirmed) {
+            $.post("<?= site_url('/projects/delete') ?>", {
+                id: project_id,
+                csrf_test_name: "<?= csrf_hash() ?>",
+            }).done(function(o) {
+                if (o.includes("Error")) {
+                    alert(o);
+                }
+                location.reload();
+            });
+        }
+    });
 </script>
 <?= $this->endSection() ?>

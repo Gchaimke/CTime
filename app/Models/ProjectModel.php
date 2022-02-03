@@ -102,6 +102,18 @@ class ProjectModel extends JsonModel
         return $id;
     }
 
+    function edit_project($project)
+    {
+        if ($project["id"] != "") {
+            $file = DATAPATH . "projects/{$project['id']}.json";
+            if (file_exists($file)) {
+                file_put_contents($file, json_encode($project, JSON_UNESCAPED_UNICODE));
+                return true;
+            }
+        }
+        return false;
+    }
+
     function delete_project($id)
     {
         $data_files = glob(DATAPATH . "projects/$id.json");

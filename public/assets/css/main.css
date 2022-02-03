@@ -6,8 +6,12 @@
     width: 100%;
 }
 
-.hidden, .edit-project {
+.hidden, .edit-project, .delete-project {
     display: none;
+}
+
+.active>.edit-project, .active>.delete-project {
+    color: aliceblue;
 }
 
 .btn-close {
