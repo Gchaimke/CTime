@@ -25,7 +25,6 @@ if (isset($user)) : ?>
 			<?php endif ?>
 		</div>
 		<div class="col text-end">
-
 			<?php if ($last_action["action"] != "holiday" && $last_action["action"] != "sickday") : ?>
 				<button class="btn btn-success action_btn <?= $in ?>" data-action="in"><i class="bi bi-play" style="font-size: 1.5rem;"></i></button>
 				<button class="btn btn-danger action_btn <?= $out ?>" data-action="out"><i class="bi bi-stop" style="font-size: 1.5rem;"></i></button>
@@ -33,6 +32,14 @@ if (isset($user)) : ?>
 		</div>
 
 	</div>
+	<div class="col-md input-group mb-2">
+		<div class="form-floating col-md-3 col-5">
+			<input type="date" class="form-control" id="new_date" placeholder="awsome date">
+			<label for="new_date">Add new date</label>
+		</div>
+		<button class="btn btn-success add_new_date"><i class="bi bi-plus-circle"></i></button>
+	</div>
+
 	<table class="table table-striped table-hover">
 		<thead>
 			<tr>
@@ -75,7 +82,6 @@ if (isset($user)) : ?>
 					if ($status == "total") {
 						$total = $time;
 					}
-					
 				}
 				echo "<td>$day_status</td>";
 				echo "<td>$in</td>";
@@ -98,6 +104,17 @@ if (isset($user)) : ?>
 
 <?php endif ?>
 <script>
+	$(".add_new_date").on("click", function() {
+		let date = $("#new_date").val();
+		$.post("<?= site_url('/month/add_date') ?>", {
+			date: date,
+			user_id : "<?=$user["id"]?>",
+			csrf_test_name: "<?= csrf_hash() ?>",
+		}).done(function(o) {
+			location.reload();
+		});
+	});
+
 	$(".action_btn").on("click", function() {
 		let action = $(this).attr("data-action");
 		$.post("<?= site_url('/month/action') ?>", {

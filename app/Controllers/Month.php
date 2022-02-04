@@ -36,6 +36,24 @@ class Month extends BaseController
         echo "$action: $time";
     }
 
+    function add_date()
+    {
+        $user_id = esc($this->request->getVar('user_id'));
+        $date = esc($this->request->getVar('date')); //2022-02-03
+        $date = explode("-", $date);
+        $yaer = intval($date[0]);
+        $month = intval($date[1]);
+        $day = intval($date[2]);
+        if (count($date) > 2) {
+            $timers = $this->timerModel->get_timers($yaer, $month, $user_id);
+            $new_date = new \App\Entities\Timer;
+            $timers["{$day}/{$month}/{$yaer}"] = $new_date;
+            $timers_file =  DATAPATH . "timers/$yaer/$month/$user_id.json";
+            $return = $this->timerModel->put_timers($timers_file, $timers);
+        }
+        die($return);
+    }
+
     function edit_date()
     {
         $return = null;
