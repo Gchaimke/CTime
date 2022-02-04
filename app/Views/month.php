@@ -37,25 +37,28 @@ if (isset($user)) : ?>
 		<thead>
 			<tr>
 				<th scope="col">Date</th>
-				<th scope="col">in</th>
-				<th scope="col">out</th>
-				<th scope="col">total</th>
+				<th scope="col">Status</th>
+				<th scope="col">In</th>
+				<th scope="col">Out</th>
+				<th scope="col">Total</th>
+				<th scope="col">Edit</th>
 			</tr>
 		</thead>
 		<?php
 		if (isset($timers) && $timers !== false) {
 			foreach ($timers as $day => $date) {
+				$day_status = "regular";
 				$in = "";
 				$out = "";
 				$total = "";
 				echo "<tr><th scope='row'>$day</th>";
 				foreach ($date as $status => $time) {
 					if ($status == "holiday" && $time) {
-						$in = "holiday";
+						$day_status = "holiday";
 						continue;
 					}
 					if ($status == "sickday" && $time) {
-						$in = "sickday";
+						$day_status = "sickday";
 						continue;
 					}
 
@@ -72,15 +75,27 @@ if (isset($user)) : ?>
 					if ($status == "total") {
 						$total = $time;
 					}
+					
 				}
+				echo "<td>$day_status</td>";
 				echo "<td>$in</td>";
 				echo "<td>$out</td>";
 				echo "<td>" . convertToHoursMins($total) . "</td>";
+				$data_in = implode(",", $date["in"]);
+				$data_out = implode(",", $date["out"]);
+				echo "<td>
+				<span class='col-1 btn edit-date' data-bs-toggle='modal' data-bs-target='#staticBackdrop' 
+				data-date-id='$day' data-date-in='$data_in' data-date-out='$data_out' data-date-status='$day_status'>
+				<i class='bi bi-pencil-square'></i>
+				</span>";
+
 				echo "</tr>";
 			}
 		}
 		?>
 	</table>
+	<?= $this->include('/elements/date_form') ?>
+
 <?php endif ?>
 <script>
 	$(".action_btn").on("click", function() {
@@ -91,6 +106,40 @@ if (isset($user)) : ?>
 		}).done(function(o) {
 			location.reload();
 		});
+	});
+
+	$(document).on("click", ".edit-date", function() {
+		let date_id = $(this).attr("data-date-id");
+		let date_status = $(this).attr("data-date-status");
+		let data_in = $(this).attr("data-date-in").split(",");
+		let data_out = $(this).attr("data-date-out").split(",");
+		$(".form-date-id").val(date_id);
+		$(".form-date-id-title").text(date_id);
+		$("#timers_feilds_in").empty();
+		$("#timers_feilds_out").empty();
+		data_in.forEach(function(index) {
+			$tr = $(".timers_in_tmp").clone().attr("class", "input-group m-2");
+			$("input", $tr).attr("value", index);
+			$tr.appendTo("#timers_feilds_in");
+		});
+		data_out.forEach(function(index) {
+			$tr = $(".timers_out_tmp").clone().attr("class", "input-group m-2");
+			$("input", $tr).attr("value", index);
+			$tr.appendTo("#timers_feilds_out");
+		});
+		$("#timers_feilds_in").find(".delete-timer-row").first().hide()
+		$("#timers_feilds_out").find(".delete-timer-row").first().hide()
+	});
+
+	$(document).on("click", ".delete-timer-row", function() {
+		$(this).parent().detach();
+	});
+
+	$(document).on("click", ".plus_timer_row", function() {
+		$tr = $(".timers_in_tmp").clone().attr("class", "input-group m-2");
+		$tr.appendTo("#timers_feilds_in");
+		$tr = $(".timers_out_tmp").clone().attr("class", "input-group m-2");
+		$tr.appendTo("#timers_feilds_out");
 	});
 </script>
 <?= $this->endSection() ?>

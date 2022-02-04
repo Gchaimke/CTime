@@ -25,7 +25,7 @@ class TimerModel extends JsonModel
         if (file_exists($timers_file)) {
             return json_decode(file_get_contents($timers_file), true);
         } else {
-            return array();
+            return array("no");
         }
     }
 
@@ -97,13 +97,12 @@ class TimerModel extends JsonModel
             if ($status) {
                 return array(
                     "action" => "in",
-                    "time" => end($timers[$date_key]["in"])
+                    "time" => isset($timers[$date_key]["in"])?end($timers[$date_key]["in"]):""
                 );
             } else {
-
                 return array(
                     "action" => "out",
-                    "time" => end($timers[$date_key]["out"])
+                    "time" => isset($timers[$date_key]["out"])?end($timers[$date_key]["out"]):""
                 );
             }
         } else {
