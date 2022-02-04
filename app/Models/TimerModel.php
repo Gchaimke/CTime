@@ -40,7 +40,7 @@ class TimerModel extends JsonModel
         $timers_folder = DATAPATH . "timers/$year/$month";
         $timers_file =  "$timers_folder/$user_id.json";
         if (!file_exists($timers_folder)) {
-            mkdir($timers_folder, 0644, true);
+            mkdir($timers_folder, 0744, true);
         }
         $timers = $this->get_timers($year, $month, $user_id);
 

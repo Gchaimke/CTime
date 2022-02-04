@@ -94,7 +94,10 @@ class BaseController extends Controller
 
         foreach ($data_folders as $folder) {
             if (!file_exists(DATAPATH . $folder)) {
-                mkdir(DATAPATH . $folder, 0644, true);
+                mkdir(DATAPATH . $folder, 0744, true);
+            }
+            if (!chmod(DATAPATH . $folder, 0744)) {
+                chmod(DATAPATH . $folder, 0744);
             }
         }
     }
