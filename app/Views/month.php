@@ -58,7 +58,9 @@ if (isset($user)) : ?>
 				$in = "";
 				$out = "";
 				$total = "";
+				if(!$date)continue;
 				echo "<tr><th scope='row'>$day</th>";
+
 				foreach ($date as $status => $time) {
 					if ($status == "holiday" && $time) {
 						$day_status = "holiday";
@@ -108,7 +110,7 @@ if (isset($user)) : ?>
 		let date = $("#new_date").val();
 		$.post("<?= site_url('/month/add_date') ?>", {
 			date: date,
-			user_id : "<?=$user["id"]?>",
+			user_id: "<?= $user["id"] ?>",
 			csrf_test_name: "<?= csrf_hash() ?>",
 		}).done(function(o) {
 			location.reload();

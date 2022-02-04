@@ -25,7 +25,7 @@ class TimerModel extends JsonModel
         if (file_exists($timers_file)) {
             return json_decode(file_get_contents($timers_file), true);
         } else {
-            return array("no");
+            return false;
         }
     }
 

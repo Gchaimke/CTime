@@ -57,7 +57,7 @@
 <main class="form-signin">
 	<form class="login-form" method="post" action="<?= site_url('/login/try_login') ?>">
 		<?= csrf_field() ?>
-		<a href="<?= site_url('/') ?>"><?= img(array("src" => "assets/icons/clock-history.svg", "alt" => "Login", "class" => "mb-4", "width" => "172")) ?></a>
+		<a href="<?= site_url('/') ?>"><?= img(array("src" => "public/assets/icons/clock-history.svg", "alt" => "Login", "class" => "mb-4", "width" => "172")) ?></a>
 		<h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
 		<div class="form-floating">
