@@ -12,28 +12,32 @@ if ($last_action["action"] == "in") {
 	$out = "hidden";
 }
 if (isset($user)) : ?>
-	<div class="row">
-		<h1 class="col"><?= $monthName ?></h1>
-		<div class="col text-center">
+	<h1 class="text-center"><?= $monthName ?></h1>
+	<div class="d-flex">
+		<div class="flex-fill">
 			<?php if ($last_action["action"] == "none") : ?>
-
 				<h2>Click <i class="bi bi-play" style="font-size: 1.5rem;"></i> to start.</h2>
-				<button class="btn btn-warning action_btn mb-3" data-action="holiday">Holiday</button>
-				<button class="btn btn-dark action_btn mb-3" data-action="sickday">Sickday</button><br>
+
 			<?php else : ?>
 				<h2><?= "Today {$last_action["action"]} {$last_action["time"]}" ?></h2>
 			<?php endif ?>
 		</div>
-		<div class="col text-end">
+		<div class="text-end">
 			<?php if ($last_action["action"] != "holiday" && $last_action["action"] != "sickday") : ?>
 				<button class="btn btn-success action_btn <?= $in ?>" data-action="in"><i class="bi bi-play" style="font-size: 1.5rem;"></i></button>
 				<button class="btn btn-danger action_btn <?= $out ?>" data-action="out"><i class="bi bi-stop" style="font-size: 1.5rem;"></i></button>
 			<?php endif ?>
 		</div>
+	</div>
+	<div class="d-flex">
+		<?php if ($last_action["action"] == "none") : ?>
+			<button class="btn btn-warning action_btn mb-2" data-action="holiday">Holiday</button>
+			<button class="btn btn-dark action_btn mx-2 mb-2" data-action="sickday">Sickday</button><br>
+		<?php endif ?>
 
 	</div>
-	<div class="col-md input-group mb-2">
-		<div class="form-floating col-md-3 col-5">
+	<div class="input-group mb-2">
+		<div class="form-floating">
 			<input type="date" class="form-control" id="new_date" placeholder="awsome date">
 			<label for="new_date">Add new date</label>
 		</div>
@@ -58,7 +62,7 @@ if (isset($user)) : ?>
 				$in = "";
 				$out = "";
 				$total = "";
-				if(!$date)continue;
+				if (!$date) continue;
 				echo "<tr><th scope='row'>$day</th>";
 
 				foreach ($date as $status => $time) {
