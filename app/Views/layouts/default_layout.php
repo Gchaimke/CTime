@@ -10,6 +10,7 @@ $display_message = "none";
 if (session()->getFlashdata('error') != "" || service('validation')->listErrors() != "" || $message_text != "") {
     $display_message = "block";
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en" class="h-100">
