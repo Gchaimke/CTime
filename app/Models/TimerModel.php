@@ -23,7 +23,8 @@ class TimerModel extends JsonModel
     {
         $timers_file =  DATAPATH . "timers/$year/$month/$user_id.json";
         if (file_exists($timers_file)) {
-            return json_decode(file_get_contents($timers_file), true);
+            $timers =  json_decode(file_get_contents($timers_file), true);
+            return $timers;
         } else {
             return false;
         }
@@ -31,7 +32,11 @@ class TimerModel extends JsonModel
 
     function put_timers($timers_file, $data)
     {
-        ksort($data);
+        uksort($data, function ($a, $b) {
+            $day1 = explode("/", $a)[0];
+            $day2 = explode("/", $b)[0];
+            return $day1 - $day2;
+        });
         return file_put_contents($timers_file, json_encode($data, JSON_UNESCAPED_UNICODE));
     }
 
@@ -97,12 +102,12 @@ class TimerModel extends JsonModel
             if ($status) {
                 return array(
                     "action" => "in",
-                    "time" => isset($timers[$date_key]["in"])?end($timers[$date_key]["in"]):""
+                    "time" => isset($timers[$date_key]["in"]) ? end($timers[$date_key]["in"]) : ""
                 );
             } else {
                 return array(
                     "action" => "out",
-                    "time" => isset($timers[$date_key]["out"])?end($timers[$date_key]["out"]):""
+                    "time" => isset($timers[$date_key]["out"]) ? end($timers[$date_key]["out"]) : ""
                 );
             }
         } else {

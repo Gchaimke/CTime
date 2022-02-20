@@ -36,76 +36,77 @@ if (isset($user)) : ?>
 		<?php endif ?>
 
 	</div>
-	<div class="input-group mb-2">
-		<div class="form-floating">
+	<div class="input-group my-2">
+		<div class="form-floating flex-fill">
 			<input type="date" class="form-control" id="new_date" placeholder="awsome date">
-			<label for="new_date">Add new date</label>
+			<label class="text-nowrap" for="new_date">Add new date</label>
 		</div>
 		<button class="btn btn-success add_new_date"><i class="bi bi-plus-circle"></i></button>
 	</div>
+	<div class="table-responsive">
+		<table class="table table-striped table-hover">
+			<thead>
+				<tr>
+					<th scope="col">Date</th>
+					<th scope="col">Status</th>
+					<th scope="col">In</th>
+					<th scope="col">Out</th>
+					<th scope="col">Total</th>
+					<th scope="col">Edit</th>
+				</tr>
+			</thead>
+			<?php
+			if (isset($timers) && $timers !== false) {
+				foreach ($timers as $day => $date) {
+					$day_status = "regular";
+					$in = "";
+					$out = "";
+					$total = "";
+					if (!$date) continue;
+					echo "<tr><th scope='row'>$day</th>";
 
-	<table class="table table-striped table-hover">
-		<thead>
-			<tr>
-				<th scope="col">Date</th>
-				<th scope="col">Status</th>
-				<th scope="col">In</th>
-				<th scope="col">Out</th>
-				<th scope="col">Total</th>
-				<th scope="col">Edit</th>
-			</tr>
-		</thead>
-		<?php
-		if (isset($timers) && $timers !== false) {
-			foreach ($timers as $day => $date) {
-				$day_status = "regular";
-				$in = "";
-				$out = "";
-				$total = "";
-				if (!$date) continue;
-				echo "<tr><th scope='row'>$day</th>";
+					foreach ($date as $status => $time) {
+						if ($status == "holiday" && $time) {
+							$day_status = "holiday";
+							continue;
+						}
+						if ($status == "sickday" && $time) {
+							$day_status = "sickday";
+							continue;
+						}
 
-				foreach ($date as $status => $time) {
-					if ($status == "holiday" && $time) {
-						$day_status = "holiday";
-						continue;
-					}
-					if ($status == "sickday" && $time) {
-						$day_status = "sickday";
-						continue;
-					}
-
-					if ($status == "in") {
-						foreach ($time as $key => $value) {
-							$in .= "<p>$value</p>";
+						if ($status == "in") {
+							foreach ($time as $key => $value) {
+								$in .= "<p>$value</p>";
+							}
+						}
+						if ($status == "out") {
+							foreach ($time as $key => $value) {
+								$out .= "<p>$value</p>";
+							}
+						}
+						if ($status == "total") {
+							$total = $time;
 						}
 					}
-					if ($status == "out") {
-						foreach ($time as $key => $value) {
-							$out .= "<p>$value</p>";
-						}
-					}
-					if ($status == "total") {
-						$total = $time;
-					}
-				}
-				echo "<td>$day_status</td>";
-				echo "<td>$in</td>";
-				echo "<td>$out</td>";
-				echo "<td>" . convertToHoursMins($total) . "</td>";
-				$data_in = implode(",", $date["in"]);
-				$data_out = implode(",", $date["out"]);
-				echo "<td>
+					echo "<td>$day_status</td>";
+					echo "<td>$in</td>";
+					echo "<td>$out</td>";
+					echo "<td>" . convertToHoursMins($total) . "</td>";
+					$data_in = implode(",", $date["in"]);
+					$data_out = implode(",", $date["out"]);
+					echo "<td>
 				<span class='col-1 btn edit-date' data-bs-toggle='modal' data-bs-target='#staticBackdrop' 
 				data-date-id='$day' data-date-in='$data_in' data-date-out='$data_out' data-date-status='$day_status'>
 				<i class='bi bi-pencil-square'></i>
 				</span>";
 
-				echo "</tr>";
+					echo "</tr>";
+				}
 			}
-		}
-		?>
-	</table>
+			?>
+		</table>
+	</div>
 	<?= $this->include('/elements/date_form') ?>
 
 <?php endif ?>
