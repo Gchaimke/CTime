@@ -90,7 +90,6 @@ if (session()->getFlashdata('error') != "" || service('validation')->listErrors(
             </div>
             <?= $this->renderSection('content') ?>
             <?= $this->include('/elements/modal') ?>
-
         </div>
     </main>
     <?= $this->include('/layouts/footer') ?>

@@ -16,8 +16,8 @@ Edit Project
     <?= $this->section('modal_buttons') ?>
     <button id="btn_add_user" type="submit" class="btn btn-success">Save</button>
     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-    <?= $this->endSection() ?>
 </form>
+<?= $this->endSection() ?>
 <script>
 
 </script>

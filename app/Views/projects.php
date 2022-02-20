@@ -29,7 +29,9 @@
                 <i class="bi bi-pencil-square"></i>
             </span>
             <span class="col project-name edit-mode"><?= $project->project_name ?></span>
-            <span class="col">Total: <span class=" total-time<?= $active ?>"><?= $total  ?></span></span>
+            <span class="col view_timers"></span>
+            <span class="col ">Total: <span class=" total-time<?= $active ?>"><?= $total  ?></span></span>
+            <span class="col btn view_timers"><i class="bi bi-list-ul"></i></span>
             <span class="col project-bnts">
                 <button class="btn btn-success action_btn mx-1 my-1 <?= $in ?>" data-action="in" data-project-id="<?= $project->id ?>">
                     <i class="bi bi-play" style="font-size: 1.5rem;"></i>
@@ -39,6 +41,28 @@
                 </button>
             </span>
             <span class="col btn delete-project" data-project-id="<?= $project->id ?>" data-project-name="<?= $project->project_name ?>"><i class="bi bi-trash"></i></span>
+            <div class="project_timers hidden">
+                <div class="d-flex">
+                    <?php
+                    foreach ($project->timers as $key => $in_out) {
+                        echo "<div class='m-3'>";
+                        if ($key == "in") {
+                            echo "In <br>";
+                        } else {
+                            echo "Out <br>";
+                        }
+
+
+                        foreach ($in_out as $col) {
+                            echo "<div class='test'>$col</div>";
+                        }
+                        echo "</div>";
+                    }
+
+                    ?>
+                </div>
+            </div>
+
         </div>
     <?php endforeach ?>
 <?php endif ?>
@@ -71,6 +95,10 @@
     $('.edit-mode').on("click", function() {
         $(".edit-project").toggle();
         $(".delete-project").toggle();
+    });
+
+    $('.view_timers').on("click", function() {
+        $(this).closest('.project-row').children('.project_timers').toggle();
     });
 
     $(document).on("click", ".edit-project", function() {
