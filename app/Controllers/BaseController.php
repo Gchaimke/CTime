@@ -21,7 +21,7 @@ use CodeIgniter\I18n\Time;
  *
  * For security be sure to declare any new methods as protected or private.
  */
-class BaseController extends Controller
+abstract class BaseController extends Controller
 {
     /**
      * Instance of the main Request object.
@@ -39,12 +39,18 @@ class BaseController extends Controller
      * class instantiation. These helpers will be available
      * to all other controllers that extend BaseController.
      *
-     * @var array
+     * @var list<string>
      */
     protected $helpers = [];
 
     /**
-     * Constructor.
+     * Be sure to declare properties for any property fetch you initialized.
+     * The creation of dynamic property is deprecated in PHP 8.2.
+     */
+    // protected $session;
+
+    /**
+     * @return void
      */
     public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
     {
@@ -53,6 +59,7 @@ class BaseController extends Controller
 
         // Preload any models, libraries, etc, here.
         helper("time");
+        helper("debug");
         helper('html');
         $this->userModel = model('App\Models\UserModel');
         $this->timerModel = model('App\Models\TimerModel');
@@ -60,11 +67,8 @@ class BaseController extends Controller
 
 
         $this->session = \Config\Services::session();
-        $this->session->start();
         $time = new Time();
         $this->now = $time->now($this->session->timezone);
-
-        $this->init_folders();
 
         $this->data = array();
         $this->data["message_type"] = "primary";
@@ -72,7 +76,7 @@ class BaseController extends Controller
         $this->data["now"] = $this->now;
 
         if (!isset($this->session->logged_in) || !$this->session->logged_in) {
-            return redirect()->to("user/login");
+            return redirect()->to("/login");
         } else {
             $this->data["user"] = [
                 'id'  => $this->session->id,
@@ -82,23 +86,6 @@ class BaseController extends Controller
                 "timezone" => $this->session->timezone,
                 "role" => $this->session->role,
             ];
-        }
-    }
-
-    function init_folders()
-    {
-        $data_folders = array('users', 'timers', 'projects');
-
-        $timers_current_date = 'timers/' . $this->now->getYear() . "/" . $this->now->getMonth() . "/";
-        $data_folders[] = $timers_current_date;
-
-        foreach ($data_folders as $folder) {
-            if (!file_exists(DATAPATH . $folder)) {
-                mkdir(DATAPATH . $folder, 0744, true);
-            }
-            if (!chmod(DATAPATH . $folder, 0744)) {
-                chmod(DATAPATH . $folder, 0744);
-            }
         }
     }
 }

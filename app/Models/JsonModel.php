@@ -25,11 +25,11 @@ class JsonModel
         return false;
     }
 
-    function find($id)
+    function find($id, $as_array = false)
     {
         $file = $this->db_dir . "$id.json";
         if (file_exists($file)) {
-            $data = json_decode(file_get_contents($file));
+            $data = json_decode(file_get_contents($file), $as_array);
             return $data;
         }
         return false;
@@ -81,6 +81,20 @@ class JsonModel
                 return false;
             }
             if (strtolower($data->$feild) == strtolower($search)) {
+                return $data;
+            }
+        }
+        return false;
+    }
+
+    function edit($data, $entity, $id)
+    {
+        $found_data = $this->find($id, true);
+        if ($found_data) {
+            $found_data = array_merge($found_data, array_intersect_key($data, $found_data));
+            $file = DATAPATH . "$entity/$id.json";
+            if (file_exists($file)) {
+                file_put_contents($file, json_encode($found_data, JSON_UNESCAPED_UNICODE));
                 return $data;
             }
         }

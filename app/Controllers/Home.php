@@ -15,4 +15,9 @@ class Home extends BaseController
         }
         return view("home", $this->data);
     }
+
+    public function register()
+    {
+        return view("register", $this->data);
+    }
 }

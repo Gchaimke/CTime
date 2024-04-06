@@ -27,7 +27,7 @@
                     echo "<tr id='$f_user->id'><th scope='row'>$f_user->username</th>";
                     echo "<td>$f_user->view_name</td>";
                     echo "<td>$f_user->role</td>";
-                    echo "<td><div class='btn btn-info m-2'><i class='bi bi-pencil-square'></i></div>";
+                    echo "<td><a class='btn btn-info m-2' href='/user/edit/$f_user->id'><i class='bi bi-pencil-square'></i></a>";
                     if ($user['username'] != $f_user->username) {
                         echo "<div class='btn btn-danger m-2 delete_user'><i class='bi bi-trash'></i></div>";
                     }
@@ -42,7 +42,7 @@
     <div class="tab-pane fade" id="nav-settings" role="tabpanel" aria-labelledby="nav-settings-tab">...</div>
 </div>
 
-<?= $this->include('/elements/user_form') ?>
+<?= $this->include('/elements/user_form_modal') ?>
 
 <script>
     $(".delete_user").on("click", function() {

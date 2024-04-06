@@ -16,7 +16,7 @@ Edit Date <span class="form-date-id-title"></span>
         <span class="col-1 btn delete-timer-row"><i class="bi bi-trash"></i></span>
     </div>
 </div>
-<form id="edit_date_form" method="post" action="<?= site_url('/month/edit_date/') ?>">
+<form id="edit_date_form" method="post" action="<?= site_url('/month/edit_date') ?>">
     <?= csrf_field() ?>
     <input type="hidden" class="form-date-id" name="date_id">
     <input type="hidden" name="user_id" value="<?= $user['id'] ?>">

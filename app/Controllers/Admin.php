@@ -10,9 +10,7 @@ class Admin extends BaseController
 
     public function index()
     {
-        if (!isset($this->data["user"]) || $this->data["user"]['role'] != "admin") {
-            return redirect()->to("/login");
-        }
+        $this->data['can_delete'] = !file_exists(DATAPATH . 'has_users') || $this->session->get()['role'] == 'admin';
         $this->data["users"] = $this->userModel->findAll();
         return view("admin", $this->data);
     }

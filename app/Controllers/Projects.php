@@ -24,7 +24,7 @@ class Projects extends BaseController
                 }
             }
         } else {
-            return redirect()->to("/login");
+            return redirect()->to("/");
         }
         return view("projects", $this->data);
     }
@@ -60,7 +60,7 @@ class Projects extends BaseController
         $project = $this->projectModel->find($project_id);
         if ($project != false) {
             $project->project_name = $project_name;
-            $return = $this->projectModel->update_project($project, $project_id);
+            $return = $this->projectModel->edit_project($project, $project_id);
         }
         if (isset($return)) {
             if ($return) {

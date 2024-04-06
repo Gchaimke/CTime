@@ -16,7 +16,7 @@ class Month extends BaseController
             $this->data["timers"] = $this->timerModel->get_timers($year, $month, $this->data['user']['id']);
             $this->data["last_action"] = $this->timerModel->get_last_action($this->data["user"]["id"]);
         } else {
-            return redirect()->to("/login");
+            return redirect()->to("/");
         }
         return view("month", $this->data);
     }
@@ -41,17 +41,18 @@ class Month extends BaseController
         $user_id = esc($this->request->getVar('user_id'));
         $date = esc($this->request->getVar('date')); //2022-02-03
         $date = explode("-", $date);
-        $yaer = intval($date[0]);
-        $month = intval($date[1]);
-        $day = intval($date[2]);
-        if (count($date) > 2) {
-            $timers = $this->timerModel->get_timers($yaer, $month, $user_id);
-            $new_date = new \App\Entities\Timer;
-            $timers["{$day}/{$month}/{$yaer}"] = $new_date;
-            $timers_file =  DATAPATH . "timers/$yaer/$month/$user_id.json";
-            $return = $this->timerModel->put_timers($timers_file, $timers);
+        if(\count($date) == 3){
+            $yaer = intval($date[0]);
+            $month = intval($date[1]);
+            $day = intval($date[2]);
+            if (count($date) > 2) {
+                $timers = $this->timerModel->get_timers($yaer, $month, $user_id);
+                $new_date = new \App\Entities\Timer;
+                $timers["{$day}/{$month}/{$yaer}"] = $new_date;
+                $timers_file =  DATAPATH . "timers/$yaer/$month/$user_id.json";
+                $return = $this->timerModel->put_timers($timers_file, $timers);
+            }
         }
-        die($return);
     }
 
     function edit_date()
@@ -59,16 +60,16 @@ class Month extends BaseController
         $return = null;
         $timers = false;
         $date_id = esc($this->request->getVar('date_id'));
+        $user_id = esc($this->request->getVar('user_id'));
+        $date_status = esc($this->request->getVar('date_status'));
 
         if (isset($date_id)) {
-            $user_id = esc($this->request->getVar('user_id'));
-            $in = array_filter(esc($this->request->getVar('in')));
-            $out = array_filter(esc($this->request->getVar('out')));
-            $date_status = esc($this->request->getVar('date_status'));
             $date = explode("/", $date_id);
             $timers = $this->timerModel->get_timers($date[2], $date[1], $user_id);
+            $in = array_filter(esc($this->request->getVar('in')));
+            $out = array_filter(esc($this->request->getVar('out')));
         }
-        // die(\print_r($timers));
+        // debug(($timers));
         if ($timers != false) {
             $timers[$date_id]["in"] = $in;
             $timers[$date_id]["out"] = $out;

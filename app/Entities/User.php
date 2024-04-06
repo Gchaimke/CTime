@@ -33,6 +33,13 @@ class User extends Entity
     public function setCreatedAt(string $dateString)
     {
         $this->attributes['created_at'] = new Time($dateString, 'UTC');
+        $this->attributes['updated_at'] = new Time($dateString, 'UTC');
+        return $this;
+    }
+
+    public function setUpdatedAt(string $dateString)
+    {
+        $this->attributes['updated_at'] = new Time($dateString, 'UTC');
         return $this;
     }
 

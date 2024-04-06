@@ -72,19 +72,15 @@ class ProjectModel extends JsonModel
                 $project->timers->out = $project_timers["out"];
                 $total = count_total((array)$project->timers);
                 $project->total = $total;
-                $this->update_project($project, $project->id);
+                $this->edit_project((array)$project, $project->id);
             }
         }
     }
 
-    function update_project($project, $project_id)
+    function edit_project(array $project, $project_id)
     {
         if ($project_id != "") {
-            $file = DATAPATH . "projects/$project_id.json";
-            if (file_exists($file)) {
-                file_put_contents($file, json_encode($project, JSON_UNESCAPED_UNICODE));
-                return true;
-            }
+            return $this->edit($project, 'projects', $project_id);
         }
         return false;
     }
@@ -100,18 +96,6 @@ class ProjectModel extends JsonModel
         $file = $this->db_dir . $id . ".json";
         file_put_contents($file, "");
         return $id;
-    }
-
-    function edit_project($project)
-    {
-        if ($project["id"] != "") {
-            $file = DATAPATH . "projects/{$project['id']}.json";
-            if (file_exists($file)) {
-                file_put_contents($file, json_encode($project, JSON_UNESCAPED_UNICODE));
-                return true;
-            }
-        }
-        return false;
     }
 
     function delete_project($id)

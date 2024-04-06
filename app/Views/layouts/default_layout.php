@@ -7,7 +7,7 @@ if (isset($user) && $user['logged_in'] != "") {
 }
 
 $display_message = "none";
-if (session()->getFlashdata('error') != "" || service('validation')->listErrors() != "" || $message_text != "") {
+if (session()->getFlashdata('error') != "" || service('validation')->getErrors() || $message_text != "") {
     $display_message = "block";
 }
 
