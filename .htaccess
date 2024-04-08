@@ -1,5 +1,4 @@
 # CodeIgniter Subfolder .Htaccess
-# today hints by www.insanen.com
 Options +FollowSymLinks
 
 RewriteEngine On
