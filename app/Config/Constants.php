@@ -14,7 +14,7 @@
  | existing namespaces of App\* namespaced-classes.
  */
 defined('APP_NAMESPACE') || define('APP_NAMESPACE', 'App');
-defined('APP_VARSION') || define('APP_VARSION', '0.1');
+defined('APP_VARSION') || define('APP_VARSION', '0.2');
 
 /*
  | --------------------------------------------------------------------------

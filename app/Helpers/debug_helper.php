@@ -1,6 +1,6 @@
 <?php
 
-function debug($data, $print = false, $die = false)
+function debug($data, $print = True, $die = True)
 {
     if (!is_string($data) || !is_numeric($data)) {
         $data = \print_r($data, true);

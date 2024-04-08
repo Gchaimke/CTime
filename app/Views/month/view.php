@@ -1,18 +1,8 @@
 <?= $this->extend('/layouts/default_layout') ?>
 <?= $this->section('content') ?>
-<?php
-$month = isset($_GET['month']) ? $_GET['month'] : $now->getMonth();
-$dateObj   = DateTime::createFromFormat('!m', $month);
-$monthName = $dateObj->format('F');
-$in = "";
-$out = "";
-if ($last_action["action"] == "in") {
-	$in = "hidden";
-} else {
-	$out = "hidden";
-}
-if (isset($user)) : ?>
-	<h1 class="text-center"><?= $monthName ?></h1>
+<?php if (isset($user)) : ?>
+	<h1 class="text-center"><?= $month_name ?></h1>
+
 	<div class="d-flex">
 		<div class="flex-fill">
 			<?php if ($last_action["action"] == "none") : ?>
@@ -34,15 +24,9 @@ if (isset($user)) : ?>
 			<button class="btn btn-warning action_btn mb-2" data-action="holiday">Holiday</button>
 			<button class="btn btn-dark action_btn mx-2 mb-2" data-action="sickday">Sickday</button><br>
 		<?php endif ?>
+	</div>
 
-	</div>
-	<div class="input-group my-2">
-		<div class="form-floating flex-fill">
-			<input type="date" class="form-control" id="new_date" placeholder="awsome date">
-			<label class="text-nowrap" for="new_date">Add new date</label>
-		</div>
-		<button class="btn btn-success add_new_date"><i class="bi bi-plus-circle"></i></button>
-	</div>
+	<?= $this->include('/month/new_date') ?>
 	<div class="table-responsive">
 		<table class="table table-striped table-hover">
 			<thead>
@@ -107,20 +91,11 @@ if (isset($user)) : ?>
 			?>
 		</table>
 	</div>
-	<?= $this->include('/elements/date_form') ?>
+	<?= $this->include('/month/date_form') ?>
 
 <?php endif ?>
 <script>
-	$(".add_new_date").on("click", function() {
-		let date = $("#new_date").val();
-		$.post("<?= site_url('/month/add_date') ?>", {
-			date: date,
-			user_id: "<?= $user["id"] ?>",
-			csrf_test_name: "<?= csrf_hash() ?>",
-		}).done(function(o) {
-			location.reload();
-		});
-	});
+
 
 	$(".action_btn").on("click", function() {
 		let action = $(this).attr("data-action");

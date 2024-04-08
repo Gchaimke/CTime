@@ -12,6 +12,6 @@ class Admin extends BaseController
     {
         $this->data['can_delete'] = !file_exists(DATAPATH . 'has_users') || $this->session->get()['role'] == 'admin';
         $this->data["users"] = $this->userModel->findAll();
-        return view("admin", $this->data);
+        return view("admin/view", $this->data);
     }
 }

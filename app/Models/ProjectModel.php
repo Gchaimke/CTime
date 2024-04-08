@@ -80,7 +80,7 @@ class ProjectModel extends JsonModel
     function edit_project(array $project, $project_id)
     {
         if ($project_id != "") {
-            return $this->edit($project, 'projects', $project_id);
+            return $this->edit((array)$project, 'projects', $project_id);
         }
         return false;
     }

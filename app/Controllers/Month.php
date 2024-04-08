@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use DateTime;
+
 class Month extends BaseController
 {
     public function __construct()
@@ -12,13 +14,14 @@ class Month extends BaseController
     {
         $year = isset($_GET["year"]) ? $_GET["year"] : $this->now->getYear();
         $month = isset($_GET["month"]) ? $_GET["month"] : $this->now->getMonth();
-        if (isset($this->data['user'])) {
-            $this->data["timers"] = $this->timerModel->get_timers($year, $month, $this->data['user']['id']);
-            $this->data["last_action"] = $this->timerModel->get_last_action($this->data["user"]["id"]);
-        } else {
-            return redirect()->to("/");
-        }
-        return view("month", $this->data);
+        $last_action = $this->timerModel->get_last_action($this->data["user"]["id"]);
+        $this->data["timers"] = $this->timerModel->get_timers($year, $month, $this->data['user']['id']);
+        $this->data["last_action"] = $last_action;
+        $this->data["in"] = $last_action["action"] == "in" ? 'hidden' : '';
+        $this->data["out"] = $last_action["action"] == "out" ? 'hidden' : '';
+        $this->data["month"] = $month;
+        $this->data["month_name"] = DateTime::createFromFormat('!m', $month)->format('F');
+        return view("month/view", $this->data);
     }
 
     function action()
@@ -41,17 +44,19 @@ class Month extends BaseController
         $user_id = esc($this->request->getVar('user_id'));
         $date = esc($this->request->getVar('date')); //2022-02-03
         $date = explode("-", $date);
-        if(\count($date) == 3){
+        if (\count($date) == 3) {
             $yaer = intval($date[0]);
             $month = intval($date[1]);
             $day = intval($date[2]);
-            if (count($date) > 2) {
-                $timers = $this->timerModel->get_timers($yaer, $month, $user_id);
-                $new_date = new \App\Entities\Timer;
-                $timers["{$day}/{$month}/{$yaer}"] = $new_date;
-                $timers_file =  DATAPATH . "timers/$yaer/$month/$user_id.json";
-                $return = $this->timerModel->put_timers($timers_file, $timers);
+            $timers = $this->timerModel->get_timers($yaer, $month, $user_id);
+            if (\in_array("$day/$month/$yaer", $timers)) {
+                return "This date already set";
             }
+            $new_date = new \App\Entities\Timer;
+            $timers["{$day}/{$month}/{$yaer}"] = $new_date;
+            $timers_folder =  DATAPATH . "timers/$yaer/$month";
+            $this->timerModel->put_timers($timers_folder, $user_id, $timers);
+            return "The new date added successfutly";
         }
     }
 
@@ -69,7 +74,6 @@ class Month extends BaseController
             $in = array_filter(esc($this->request->getVar('in')));
             $out = array_filter(esc($this->request->getVar('out')));
         }
-        // debug(($timers));
         if ($timers != false) {
             $timers[$date_id]["in"] = $in;
             $timers[$date_id]["out"] = $out;
@@ -81,8 +85,8 @@ class Month extends BaseController
                 $timers[$date_id]["holiday"] = false;
                 $timers[$date_id]["sickday"] = false;
             }
-            $timers_file =  DATAPATH . "timers/$date[2]/$date[1]/$user_id.json";
-            $return = $this->timerModel->put_timers($timers_file, $timers);
+            $timers_folder =  DATAPATH . "timers/$date[2]/$date[1]";
+            $return = $this->timerModel->put_timers($timers_folder, $user_id, $timers);
         }
         if (isset($return)) {
             if ($return) {

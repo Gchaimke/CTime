@@ -10,23 +10,19 @@ class Projects extends BaseController
 
     public function index()
     {
-        if (isset($this->data['user'])) {
-            $this->data["projects"] = $this->projectModel->whereInArray("users", $this->data['user']['id']);
-            if ($this->data["projects"]) {
-                foreach ($this->data["projects"] as $project) {
-                    if ($project->is_started) {
-                        $project_timers = (array)$project->timers;
-                        $project_timers["out"][] = $this->now;
-                        $project->timers->out = $project_timers["out"];
-                        $total = count_total((array)$project->timers);
-                        $this->data["active_project_time"] = $total;
-                    }
+        $this->data["projects"] = $this->projectModel->whereInArray("users", $this->data['user']['id']);
+        if ($this->data["projects"]) {
+            foreach ($this->data["projects"] as $project) {
+                if ($project->is_started) {
+                    $project_timers = (array)$project->timers;
+                    $project_timers["out"][] = $this->now;
+                    $project->timers->out = $project_timers["out"];
+                    $total = count_total((array)$project->timers);
+                    $this->data["active_project_time"] = $total;
                 }
             }
-        } else {
-            return redirect()->to("/");
         }
-        return view("projects", $this->data);
+        return view("projects/view", $this->data);
     }
 
     function action_project()
@@ -40,38 +36,43 @@ class Projects extends BaseController
         );
 
         if ($project["action"] == "new_project") {
-            $return = $this->projectModel->add_project($project);
-            if (!$return) {
-                echo "Error: Can't create new project.";
-            }
         } else {
-            $return = $this->projectModel->add_time($project);
-            if (!$return) {
+            $response = $this->projectModel->add_time($project);
+            if (!$response) {
                 echo "Error: Can't add time to project.";
             }
         }
     }
 
+    public function add_project()
+    {
+        $project = array(
+            "project_name" => $this->request->getVar('project_name'),
+            "user_id" => $this->data['user']['id'],
+            "time" => $this->now->toDateTimeString(),
+        );
+        $response = $this->projectModel->add_project($project);
+        if (!$response) {
+            echo "Error: Can't add new project.";
+        } else {
+            echo "New project added successfuly.";
+        }
+    }
+
     function edit_project()
     {
-        $return = null;
         $project_name = esc($this->request->getVar('project_name'));
         $project_id = esc($this->request->getVar('project_id'));
         $project = $this->projectModel->find($project_id);
         if ($project != false) {
             $project->project_name = $project_name;
-            $return = $this->projectModel->edit_project($project, $project_id);
+            $response = $this->projectModel->edit_project((array)$project, $project_id);
         }
-        if (isset($return)) {
-            if ($return) {
-                $this->data['message_type'] = "success";
-                $this->data['message_text'] = "Project updated!";
-            } else {
-                $this->data['message_type'] = "danger";
-                $this->data['message_text'] = "Project not updated!";
-            }
+        if (isset($response)) {
+            echo "Project updated!";
+        } else {
+            echo "Project not updated!" . \print_r($response);
         }
-        return $this->index();
     }
 
     function delete()

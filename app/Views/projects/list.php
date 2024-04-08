@@ -1,14 +1,3 @@
-<?= $this->extend('/layouts/default_layout') ?>
-<?= $this->section('content') ?>
-<div class="d-flex" style="align-items: center;">
-    <div class="input-group mb-2 ">
-        <div class="form-floating flex-fill">
-            <input type="text" class="form-control" id="project_name" placeholder="awsome project">
-            <label for="project_name">New Project Name</label>
-        </div>
-        <button class="btn btn-success action_btn" data-action="new_project"><i class="bi bi-plus-circle" style="font-size: 1.5rem;"></i></button>
-    </div>
-</div>
 <?php if ($projects) : ?>
     <?php foreach ($projects as $project) : ?>
         <?php
@@ -66,7 +55,6 @@
         </div>
     <?php endforeach ?>
 <?php endif ?>
-<?= $this->include('/elements/project_form') ?>
 <script>
     $(".action_btn").on("click", function() {
         let action = $(this).attr("data-action");
@@ -101,13 +89,6 @@
         $(this).closest('.project-row').children('.project_timers').toggle();
     });
 
-    $(document).on("click", ".edit-project", function() {
-        let project_id = $(this).attr("data-project-id");
-        let project_name = $(this).attr("data-project-name");
-        $(".form-project-name").val(project_name);
-        $(".form-project-id").val(project_id);
-    });
-
     $(".delete-project").on("click", function() {
         let project_id = $(this).attr("data-project-id");
         let project_name = $(this).attr("data-project-name");
@@ -125,4 +106,3 @@
         }
     });
 </script>
-<?= $this->endSection() ?>

@@ -26,24 +26,26 @@ class TimerModel extends JsonModel
             $timers =  json_decode(file_get_contents($timers_file), true);
             return $timers;
         } else {
-            return false;
+            return array();
         }
     }
 
-    function put_timers($timers_file, $data)
+    function put_timers($timers_folder, $user_id, $data)
     {
         uksort($data, function ($a, $b) {
             $day1 = explode("/", $a)[0];
             $day2 = explode("/", $b)[0];
             return $day1 - $day2;
         });
-        return file_put_contents($timers_file, json_encode($data, JSON_UNESCAPED_UNICODE));
+        if(!file_exists($timers_folder)){
+            mkdir($timers_folder, 0644, true);
+        }
+        return file_put_contents("$timers_folder/$user_id.json", json_encode($data, JSON_UNESCAPED_UNICODE));
     }
 
     public function add_time($day, $month, $year, $time, $action, $user_id)
     {
         $timers_folder = DATAPATH . "timers/$year/$month";
-        $timers_file =  "$timers_folder/$user_id.json";
         if (!file_exists($timers_folder)) {
             mkdir($timers_folder, 0744, true);
         }
@@ -71,7 +73,7 @@ class TimerModel extends JsonModel
             $timers[$date]["total"] = count_total($timers[$date]);
         }
 
-        $this->put_timers($timers_file, $timers);
+        $this->put_timers($timers_folder, $user_id, $timers);
     }
 
 

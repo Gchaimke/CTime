@@ -12,7 +12,7 @@ class User extends BaseController
         }
         // $this->data['message_type'] = "success";
         // $this->data['message_text'] = "Username or Password is good!";
-        return view("user", $this->data);
+        return view("user/view", $this->data);
     }
 
     public function register()
@@ -38,7 +38,7 @@ class User extends BaseController
             $this->data['message_type'] = "danger";
             $this->data['message_text'] = "Username already registered!";
             $this->data = array_merge($this->data, $user);
-            return view("register", $this->data);
+            return view("user/register", $this->data);
         }
     }
 
@@ -68,7 +68,7 @@ class User extends BaseController
             $post_user['password'] = '';
             $this->data = array_merge($this->data, $user, $post_user);
         }
-        return view("edit", $this->data);
+        return view("user/edit", $this->data);
     }
 
     function delete()

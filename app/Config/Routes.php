@@ -7,8 +7,8 @@ use CodeIgniter\Router\RouteCollection;
  */
 
 # Home
-$routes->get('/', 'Home');
-$routes->get('/register', 'Home::register');
+$routes->get('/', 'Dashboard');
+$routes->get('/register', 'Dashboard::register');
 
 # Login
 $routes->get('/login', 'Login');
@@ -23,6 +23,9 @@ $routes->match(['get', 'post'], '/user/edit/(:any)', 'User::edit/$1');
 # Projects
 $routes->get('/projects', 'Projects');
 $routes->post('/projects/action_project', 'Projects::action_project');
+$routes->post('/projects/add_project', 'Projects::add_project');
+$routes->post('/projects/edit_project', 'Projects::edit_project');
+$routes->post('/projects/delete', 'Projects::delete');
 
 # Month
 $routes->get('/month', 'Month');

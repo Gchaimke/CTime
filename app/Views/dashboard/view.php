@@ -1,6 +1,6 @@
 <?= $this->extend('/layouts/default_layout') ?>
 <?= $this->section('content') ?>
-<h1>Home</h1>
+<h1>Dashboard</h1>
 
-
+<?= $this->include('/projects/list') ?>
 <?= $this->endSection() ?>
