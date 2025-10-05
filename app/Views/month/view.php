@@ -13,7 +13,7 @@
 			<?php endif ?>
 		</div>
 		<div class="text-end">
-			<?php if ($last_action["action"] != "holiday" && $last_action["action"] != "sickday") : ?>
+			<?php if ($last_action["action"] != "holiday" && $last_action["action"] != "sick_day") : ?>
 				<button class="btn btn-success action_btn <?= $in ?>" data-action="in"><i class="bi bi-play" style="font-size: 1.5rem;"></i></button>
 				<button class="btn btn-danger action_btn <?= $out ?>" data-action="out"><i class="bi bi-stop" style="font-size: 1.5rem;"></i></button>
 			<?php endif ?>
@@ -22,7 +22,7 @@
 	<div class="d-flex">
 		<?php if ($last_action["action"] == "none") : ?>
 			<button class="btn btn-warning action_btn mb-2" data-action="holiday">Holiday</button>
-			<button class="btn btn-dark action_btn mx-2 mb-2" data-action="sickday">Sickday</button><br>
+			<button class="btn btn-dark action_btn mx-2 mb-2" data-action="sick_day">Sick Day</button><br>
 		<?php endif ?>
 	</div>
 
@@ -54,8 +54,8 @@
 							$day_status = "holiday";
 							continue;
 						}
-						if ($status == "sickday" && $time) {
-							$day_status = "sickday";
+						if ($status == "sick_day" && $time) {
+							$day_status = "sick_day";
 							continue;
 						}
 
@@ -114,20 +114,20 @@
 		let data_out = $(this).attr("data-date-out").split(",");
 		$(".form-date-id").val(date_id);
 		$(".form-date-id-title").text(date_id);
-		$("#timers_feilds_in").empty();
-		$("#timers_feilds_out").empty();
+		$("#timers_fields_in").empty();
+		$("#timers_fields_out").empty();
 		data_in.forEach(function(index) {
 			$tr = $(".timers_in_tmp").clone().attr("class", "input-group m-2");
 			$("input", $tr).attr("value", index);
-			$tr.appendTo("#timers_feilds_in");
+			$tr.appendTo("#timers_fields_in");
 		});
 		data_out.forEach(function(index) {
 			$tr = $(".timers_out_tmp").clone().attr("class", "input-group m-2");
 			$("input", $tr).attr("value", index);
-			$tr.appendTo("#timers_feilds_out");
+			$tr.appendTo("#timers_fields_out");
 		});
-		$("#timers_feilds_in").find(".delete-timer-row").first().hide()
-		$("#timers_feilds_out").find(".delete-timer-row").first().hide()
+		$("#timers_fields_in").find(".delete-timer-row").first().hide()
+		$("#timers_fields_out").find(".delete-timer-row").first().hide()
 	});
 
 	$(document).on("click", ".delete-timer-row", function() {
@@ -136,9 +136,9 @@
 
 	$(document).on("click", ".plus_timer_row", function() {
 		$tr = $(".timers_in_tmp").clone().attr("class", "input-group m-2");
-		$tr.appendTo("#timers_feilds_in");
+		$tr.appendTo("#timers_fields_in");
 		$tr = $(".timers_out_tmp").clone().attr("class", "input-group m-2");
-		$tr.appendTo("#timers_feilds_out");
+		$tr.appendTo("#timers_fields_out");
 	});
 </script>
 <?= $this->endSection() ?>

@@ -80,10 +80,10 @@ class Month extends BaseController
             $timers[$date_id]["total"] = count_total($timers[$date_id]);
             $timers[$date_id]["is_started"] = count($in) > count($out) ? true : false;
             if ($date_status == "holiday") $timers[$date_id]["holiday"] = true;
-            if ($date_status == "sickday") $timers[$date_id]["sickday"] = true;
+            if ($date_status == "sick_day") $timers[$date_id]["sick_day"] = true;
             if ($date_status == "regular") {
                 $timers[$date_id]["holiday"] = false;
-                $timers[$date_id]["sickday"] = false;
+                $timers[$date_id]["sick_day"] = false;
             }
             $timers_folder =  DATAPATH . "timers/$date[2]/$date[1]";
             $return = $this->timerModel->put_timers($timers_folder, $user_id, $timers);

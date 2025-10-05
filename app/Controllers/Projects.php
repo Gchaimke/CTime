@@ -4,23 +4,15 @@ namespace App\Controllers;
 
 class Projects extends BaseController
 {
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     public function index()
     {
-        $this->data["projects"] = $this->projectModel->whereInArray("users", $this->data['user']['id']);
-        if ($this->data["projects"]) {
-            foreach ($this->data["projects"] as $project) {
-                if ($project->is_started) {
-                    $project_timers = (array)$project->timers;
-                    $project_timers["out"][] = $this->now;
-                    $project->timers->out = $project_timers["out"];
-                    $total = count_total((array)$project->timers);
-                    $this->data["active_project_time"] = $total;
-                }
-            }
+        $this->data['projects'] = [];
+        $projects = $this->projectModel->whereInArray("users", $this->data['user']['id']);
+        foreach ($projects as $project) {
+            $this->data['projects'][$project->id] = $project;
+            $this->data['projects'][$project->id]->total = count_total((array)$project->timers);
         }
         return view("projects/view", $this->data);
     }
@@ -35,8 +27,7 @@ class Projects extends BaseController
             "time" => $this->now->toDateTimeString(),
         );
 
-        if ($project["action"] == "new_project") {
-        } else {
+        if (in_array($project["action"], ["in", "out"])) {
             $response = $this->projectModel->add_time($project);
             if (!$response) {
                 echo "Error: Can't add time to project.";
@@ -55,7 +46,7 @@ class Projects extends BaseController
         if (!$response) {
             echo "Error: Can't add new project.";
         } else {
-            echo "New project added successfuly.";
+            echo "New project added successfully.";
         }
     }
 
@@ -64,6 +55,7 @@ class Projects extends BaseController
         $project_name = esc($this->request->getVar('project_name'));
         $project_id = esc($this->request->getVar('project_id'));
         $project = $this->projectModel->find($project_id);
+        $response = null;
         if ($project != false) {
             $project->project_name = $project_name;
             $response = $this->projectModel->edit_project((array)$project, $project_id);
@@ -79,5 +71,36 @@ class Projects extends BaseController
     {
         $id = $this->request->getVar('id');
         $this->projectModel->delete_project($id);
+    }
+
+    function delete_timer()
+    {
+        $project_id = $this->request->getVar('project_id');
+        $timer_id = $this->request->getVar('timer_id');
+        $this->projectModel->delete_project_timer($project_id, $timer_id);
+    }
+
+    function change_timer()
+    {
+        $project_id = $this->request->getVar('project_id');
+        $timer_id = $this->request->getVar('timer_id');
+        $new_value = $this->request->getVar('new_value');
+        $action = $this->request->getVar('action');
+        if (!in_array($action, ['in', 'out'])) {
+            echo "Error: Invalid action.";
+            return;
+        }
+        $this->projectModel->change_project_timer($project_id, $timer_id, $action, $new_value);
+    }
+
+    function update_total_payed()
+    {
+        $project_id = $this->request->getVar('project_id');
+        $new_value = $this->request->getVar('new_value');
+        if (is_numeric($new_value)) {
+            $this->projectModel->edit(array("total_payed" => intval($new_value)), $project_id, false);
+        } else {
+            echo "Error: Invalid value.";
+        }
     }
 }

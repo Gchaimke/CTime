@@ -25,12 +25,12 @@ Edit Date <span class="form-date-id-title"></span>
         <select class="form-select" aria-label="date-status" name="date_status">
             <option selected value="regular">regular</option>
             <option value="holiday">holiday</option>
-            <option value="sickday">sickday</option>
+            <option value="sick_day">sick day</option>
         </select>
     </div>
     <div class="row">
-        <div id="timers_feilds_in" class="col"></div>
-        <div id="timers_feilds_out" class="col"></div>
+        <div id="timers_fields_in" class="col"></div>
+        <div id="timers_fields_out" class="col"></div>
     </div>
     <span class="btn btn-success plus_timer_row"><i class="bi bi-plus-circle"></i></span>
     <?= $this->endSection() ?>

@@ -24,7 +24,7 @@ if (session()->getFlashdata('error') != "" || service('validation')->getErrors()
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <a class="navbar-brand" href="<?= site_url('/') ?>"><i class="bi bi-clock-history"></i> CTime v<?= APP_VARSION ?></a>
+                <a class="navbar-brand" href="<?= site_url('/') ?>"><i class="bi bi-clock-history"></i> CTime v<?= APP_VERSION ?></a>
                 <span class="clock-bar">
                     <span class="date" id="date"><?= $now->toDateString() ?></span>
                     <span class="clock" id="clock"></span>

@@ -47,7 +47,7 @@ class UserModel extends JsonModel
                 $user['password'] = password_hash($user['password'], PASSWORD_BCRYPT);
             }
             $user['updated_at'] = new Time(date("Y-m-d H:i:s"), 'UTC');
-            return $this->edit($user, 'users', $id);
+            return $this->edit($user, $id);
         }
         return false;
     }
@@ -55,12 +55,12 @@ class UserModel extends JsonModel
     function login(array $user)
     {
         $f_user = $this->first("username", $user['username']);
-        if ($f_user !== false) {
+        if (!empty($f_user)) {
             if (password_verify($user['password'], $f_user->password)) {
                 return $f_user;
             }
         } else {
-            if ($this->findAll() == false) {
+            if (empty($this->findAll())) {
                 $new_user = array(
                     "company" => "CTime",
                     "username" => "admin",

@@ -22,7 +22,7 @@ class JsonModel
         if (count($all) > 0) {
             return $all;
         }
-        return false;
+        return array();
     }
 
     function find($id, $as_array = false)
@@ -32,72 +32,78 @@ class JsonModel
             $data = json_decode(file_get_contents($file), $as_array);
             return $data;
         }
-        return false;
+        return array();
     }
 
-    function where($feild, $search)
+    function where($field, $search)
     {
-        $dir = glob($this->db_dir . "*.json");
-        $all = array();
-        foreach ($dir as $file) {
-            $data = json_decode(file_get_contents($file));
-            if (strtolower($data->$feild) == strtolower($search)) {
-                $all[] = $data;
+        $all_entities = $this->findAll();
+        $found = [];
+        foreach ($all_entities as $entity) {
+            if (strtolower($entity->$field) == strtolower($search)) {
+                $found[] = $entity;
             }
         }
-        if (count($all) > 0) {
-            return $all;
-        }
-        return false;
+        return $found;
     }
 
-    function whereInArray($feild, $search)
+    function whereInArray($field, $search)
     {
-        $dir = glob($this->db_dir . "*.json");
-        $all = array();
-        foreach ($dir as $file) {
-            $data = json_decode(file_get_contents($file));
-            if ($data == "" || !property_exists($data, $feild)) {
+        $all_entities = $this->findAll();
+        $found = [];
+        foreach ($all_entities as $entity) {
+            if ($entity == "" || !property_exists($entity, $field)) {
                 continue;
             }
-            foreach ($data->$feild as $value) {
+            foreach ($entity->$field as $value) {
                 if (strtolower($value) == strtolower($search)) {
-                    $all[] = $data;
+                    $found[] = $entity;
                 }
             }
         }
-        if (count($all) > 0) {
-            return $all;
-        }
-        return false;
+        return $found;
     }
 
-    function first($feild, $search)
+    function first($field, $search)
     {
-        $dir = glob($this->db_dir . "*.json");
-        foreach ($dir as $file) {
-            $data = json_decode(file_get_contents($file));
-            if ($data == "" || !property_exists($data, $feild)) {
-                return false;
+        $all_entities = $this->findAll();
+        foreach ($all_entities as $entity) {
+            if ($entity == "" || !property_exists($entity, $field)) {
+                return array();
             }
-            if (strtolower($data->$feild) == strtolower($search)) {
-                return $data;
+            if (strtolower($entity->$field) == strtolower($search)) {
+                return $entity;
             }
         }
-        return false;
+        return array();
     }
 
-    function edit($data, $entity, $id)
+    function edit($data, $id, $intersect = true)
     {
         $found_data = $this->find($id, true);
         if ($found_data) {
-            $found_data = array_merge($found_data, array_intersect_key($data, $found_data));
-            $file = DATAPATH . "$entity/$id.json";
+            if ($intersect) {
+                $found_data = array_merge($found_data, array_intersect_key($data, $found_data));
+            } else {
+                $found_data = array_merge($found_data, $data);
+            }
+            $file = $this->db_dir . "$id.json";
             if (file_exists($file)) {
                 file_put_contents($file, json_encode($found_data, JSON_UNESCAPED_UNICODE));
                 return $data;
             }
         }
-        return false;
+        return array();
+    }
+
+    function delete($id)
+    {
+        if ($id == "") {
+            return;
+        }
+        $file = $this->db_dir . "$id.json";
+        if (file_exists($file)) {
+            unlink($file);
+        }
     }
 }

@@ -4,9 +4,14 @@ namespace App\Models;
 
 class ProjectModel extends JsonModel
 {
-    protected $table         = 'projects';
+    protected $table = 'projects';
     protected $allowedFields = [
-        'project_name', 'users',  'managers', 'password', 'timers', 'total',
+        'project_name',
+        'users',
+        'managers',
+        'password',
+        'timers',
+        'total',
     ];
     protected $returnType    = \App\Entities\Project::class;
     protected $useTimestamps = true;
@@ -38,27 +43,29 @@ class ProjectModel extends JsonModel
 
     function add_time(array $project)
     {
-        if ($project["project_id"] != "") {
-            $file = DATAPATH . "projects/{$project['project_id']}.json";
-            if (file_exists($file)) {
-                $current_project = json_decode(file_get_contents($file), true);
-                if ($project['action'] == "in") {
-                    $current_project["is_started"] = true;
-                    $this->stop_another($project['user_id'], $project['project_id'], $project["time"]);
-                } else {
-                    $current_project["is_started"] = false;
-                }
-                $current_project["timers"][$project['action']][] = $project["time"];
-                $total = count_total($current_project['timers']);
-                $current_project["total"] = $total;
-                file_put_contents($file, json_encode($current_project, JSON_UNESCAPED_UNICODE));
-                return true;
+        try {
+            $current_project = $this->find($project["project_id"], true);
+            if (empty($current_project)) {
+                return false;
             }
+            $timers = $current_project["timers"];
+            if ($project['action'] == "in") {
+                $current_project["is_started"] = true;
+                $current_project["timers"][][$project['action']] = $project["time"];
+                $this->stop_another($project['user_id'], $current_project['id']);
+            } else {
+                $current_project["is_started"] = false;
+                $current_project["timers"][count($timers) - 1][$project['action']] = $project["time"];
+            }
+            $current_project["total"] = count_total($current_project['timers']);
+            $this->edit((array)$current_project, $current_project['id']);
+            return true;
+        } catch (\Throwable $th) {
+            return false;
         }
-        return false;
     }
 
-    function stop_another($user_id, $project_id, $time)
+    function stop_another($user_id, $project_id)
     {
         $user_projects = $this->whereInArray("users", $user_id);
         foreach ($user_projects as $project) {
@@ -68,21 +75,12 @@ class ProjectModel extends JsonModel
             if ($project->is_started) {
                 $project->is_started = false;
                 $project_timers = (array)$project->timers;
-                $project_timers["out"][] = $time;
-                $project->timers->out = $project_timers["out"];
-                $total = count_total((array)$project->timers);
-                $project->total = $total;
-                $this->edit_project((array)$project, $project->id);
+                $project_timers[count($project_timers) - 1]->out = date("Y-m-d H:i:s");
+                $project->timers = $project_timers;
+                $project->total = count_total($project->timers);
+                $this->edit((array)$project, $project->id);
             }
         }
-    }
-
-    function edit_project(array $project, $project_id)
-    {
-        if ($project_id != "") {
-            return $this->edit((array)$project, 'projects', $project_id);
-        }
-        return false;
     }
 
     function generate_new_file($id = "")
@@ -107,6 +105,27 @@ class ProjectModel extends JsonModel
                     unlink($file);
                 }
             }
+        }
+    }
+
+    function delete_project_timer($project_id, $timer_id)
+    {
+        $current_project = $this->find($project_id, true);
+        if (isset($current_project["timers"][$timer_id])) {
+            unset($current_project["timers"][$timer_id]);
+            $current_project["timers"] = array_values($current_project["timers"]);
+            $current_project["total"] = count_total($current_project['timers']);
+            $this->edit((array)$current_project, $project_id);
+        }
+    }
+
+    function change_project_timer($project_id, $timer_id, $action, $new_value)
+    {
+        $current_project = $this->find($project_id, true);
+        if (isset($current_project["timers"][$timer_id])) {
+            $current_project["timers"][$timer_id][$action] = $new_value;
+            $current_project["total"] = count_total($current_project['timers']);
+            $this->edit((array)$current_project, $project_id);
         }
     }
 }

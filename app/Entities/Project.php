@@ -13,15 +13,10 @@ class Project extends Entity
         'users'  => array(),
         'managers'      => array(),
         'password'   => null,
-        'timers'       => array("in" => array(), "out" => array()),
+        'timers'       => array(),
         'total'  => 0,
         'is_started'  => false,
         'created_at'  => null,
+        'total_payed' => 0,
     ];
-
-    public function addTimer($time, $action)
-    {
-        $this->attributes['timers'][$action] = array($time);
-        return $this;
-    }
 }

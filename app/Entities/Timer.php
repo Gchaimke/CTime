@@ -8,7 +8,7 @@ class Timer extends Entity
 {
     protected $attributes = [
         'holiday'      => null,
-        'sickday'      => null,
+        'sick_day'      => null,
         'in'         => array(),
         'out'        => array(),
         'total'      => 0,

@@ -5,13 +5,8 @@ $assets = env("app.subfolder");
 <?= $this->extend('/layouts/clean_layout') ?>
 <?= $this->section('content') ?>
 <style>
-	html,
-	body {
-		height: 100%;
-	}
 
 	body {
-		display: flex;
 		align-items: center;
 		padding-top: 40px;
 		padding-bottom: 40px;
@@ -53,9 +48,6 @@ $assets = env("app.subfolder");
 
 	footer.footer.mt-auto.py-3.bg-light {
 		background: #ffffff00 !important;
-		position: absolute;
-		bottom: 0;
-		width: 100%;
 	}
 </style>
 <main class="form-signin">
@@ -73,7 +65,7 @@ $assets = env("app.subfolder");
 			<label for="floatingPassword">Password</label>
 		</div>
 		<button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
-		<p class="mt-5 mb-3 mt-5 mb-3 text-white">CTime© V<?= APP_VARSION ?> &nbsp; 2021–<?= date("Y") ?></p>
+		<p class="mt-5 mb-3 mt-5 mb-3 text-white">CTime© V<?= APP_VERSION ?> &nbsp; 2021–<?= date("Y") ?></p>
 	</form>
 </main>
 <?= $this->endSection() ?>
