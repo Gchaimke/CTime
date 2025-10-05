@@ -26,7 +26,7 @@ Edit Project
     $(document).on("click", ".btn_edit_project",function() {
         let project_name = $(".form-project-name").val();
         if (project_name == "") {
-            alert("Project name is epmty");
+            alert("Project name is empty");
         } else {
             $.post("<?= site_url('/projects/edit_project') ?>", {
                 project_id: $(this).attr("data-project-id"),
