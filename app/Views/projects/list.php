@@ -17,15 +17,17 @@
                 data-project-per-hour="<?= @$project->per_hour ?? 100 ?>" data-project-currency="<?= @$project->currency ?? 'USD' ?>">
                 <i class="bi bi-pencil-square"></i>
             </span>
-            <span class="col-md-3 col-sm-12 project-name edit-mode"><?= $project->project_name ?></span>
-            <span class="col-md-3 col-sm-12">Total: <span class="total-time <?= $active ?>"><?= $total  ?></span></span>
+            <span class="col-md-2 col-sm-12 project-name edit-mode"><?= $project->project_name ?></span>
+            <span class="col btn view_timers <?= $active ?>"><i class="bi bi-list-ul"></i></span>
+            <span class="col-md-2 col-sm-12">Total: <span class="total-time <?= $active ?>"><?= $total  ?></span></span>
             <span class="col-md-3 col-sm-12">
                 <div class='input-group'>
-                    <span class="input-group-text">Paid Hours</span>
+                    <span class="input-group-text">Paid</span>
                     <input type='number' class='form-control total-payed' data-project-id='<?= $project->id ?>' value='<?= @$project->total_payed ?? 0 ?>'>
+                    <span class="input-group-text">Debt: <?= (floor($project->total / 60) * @$project->per_hour) - $project->total_payed ?></span>
+                    <span class="input-group-text"><?= @$project->currency ?></span>
                 </div>
             </span>
-            <span class="col btn view_timers <?= $active ?>"><i class="bi bi-list-ul"></i></span>
             <span class="col project-bnts">
                 <button class="btn btn-success action_btn mx-1 my-1 <?= $in ?>" data-action="in" data-project-id="<?= $project->id ?>">
                     <i class="bi bi-play" style="font-size: 1.5rem;"></i>
@@ -120,6 +122,7 @@
             if (o.includes("Error")) {
                 alert(o);
             }
+            location.reload();
         });
     });
 
