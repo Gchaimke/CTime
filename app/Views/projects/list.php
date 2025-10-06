@@ -24,7 +24,7 @@
                 <div class='input-group'>
                     <span class="input-group-text">Paid</span>
                     <input type='number' class='form-control total-payed' data-project-id='<?= $project->id ?>' value='<?= @$project->total_payed ?? 0 ?>'>
-                    <span class="input-group-text">Debt: <?= (floor($project->total / 60) * @$project->per_hour) - $project->total_payed ?></span>
+                    <span class="input-group-text">Debt: <?= (floor($project->total / 60) * @$project->per_hour ?? 1) - @$project->total_payed ?? 0 ?></span>
                     <span class="input-group-text"><?= @$project->currency ?></span>
                 </div>
             </span>
