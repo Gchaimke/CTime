@@ -12,19 +12,20 @@
             $out = "hidden";
         } ?>
         <div class="row project-row <?= $active ?>">
-            <span class="col btn edit-project" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-project-id="<?= $project->id ?>" data-project-name="<?= $project->project_name ?>">
+            <span class="col btn edit-project" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                data-project-id="<?= $project->id ?>" data-project-name="<?= $project->project_name ?>"
+                data-project-per-hour="<?= @$project->per_hour ?? 100 ?>" data-project-currency="<?= @$project->currency ?? 'USD' ?>">
                 <i class="bi bi-pencil-square"></i>
             </span>
-            <span class="col project-name edit-mode"><?= $project->project_name ?></span>
-            <span class="col view_timers"></span>
-            <span class="col-md-3 col-sm-12">Total: <span class=" total-time<?= $active ?>"><?= $total  ?></span></span>
-            <span class="col-md-4 col-sm-12">
+            <span class="col-md-3 col-sm-12 project-name edit-mode"><?= $project->project_name ?></span>
+            <span class="col-md-3 col-sm-12">Total: <span class="total-time <?= $active ?>"><?= $total  ?></span></span>
+            <span class="col-md-3 col-sm-12">
                 <div class='input-group'>
                     <span class="input-group-text">Paid Hours</span>
                     <input type='number' class='form-control total-payed' data-project-id='<?= $project->id ?>' value='<?= @$project->total_payed ?? 0 ?>'>
                 </div>
             </span>
-            <span class="col btn view_timers"><i class="bi bi-list-ul"></i></span>
+            <span class="col btn view_timers <?= $active ?>"><i class="bi bi-list-ul"></i></span>
             <span class="col project-bnts">
                 <button class="btn btn-success action_btn mx-1 my-1 <?= $in ?>" data-action="in" data-project-id="<?= $project->id ?>">
                     <i class="bi bi-play" style="font-size: 1.5rem;"></i>
@@ -119,7 +120,6 @@
             if (o.includes("Error")) {
                 alert(o);
             }
-            // location.reload();
         });
     });
 

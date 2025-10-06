@@ -40,7 +40,7 @@ span.col.project-bnts {
 }
 
 .row.project-row.active {
-    background: midnightblue;
+    background: #0d9efdd4;
     color: aliceblue;
     font-size: 1.2em;
 }

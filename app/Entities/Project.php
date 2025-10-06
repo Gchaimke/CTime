@@ -18,5 +18,7 @@ class Project extends Entity
         'is_started'  => false,
         'created_at'  => null,
         'total_payed' => 0,
+        'per_hour'    => 100,
+        'currency'    => 'ILS',
     ];
 }

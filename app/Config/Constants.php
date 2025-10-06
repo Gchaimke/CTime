@@ -98,3 +98,24 @@ if (!defined('ROLES')) {
     );
     define('ROLES', $roles);
 }
+
+if (!defined('CURRENCIES')) {
+    $currencies = array(
+        "USD" => array(
+            'title' => 'US Dollar',
+            'symbol' => '$',
+            'code' => 'USD',
+        ),
+        "EUR" => array(
+            'title' => 'Euro',
+            'symbol' => '€',
+            'code' => 'EUR',
+        ),
+        "ILS" => array(
+            'title' => 'Israeli New Shekel',
+            'symbol' => '₪',
+            'code' => 'ILS',
+        ),
+    );
+    define('CURRENCIES', $currencies);
+}

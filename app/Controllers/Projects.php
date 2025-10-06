@@ -52,15 +52,22 @@ class Projects extends BaseController
 
     function edit_project()
     {
-        $project_name = esc($this->request->getVar('project_name'));
-        $project_id = esc($this->request->getVar('project_id'));
-        $project = $this->projectModel->find($project_id);
-        $response = null;
-        if ($project != false) {
-            $project->project_name = $project_name;
-            $response = $this->projectModel->edit_project((array)$project, $project_id);
+        $serialized = $this->request->getVar('form');
+        $form = [];
+        if (!empty($serialized) && is_string($serialized)) {
+            parse_str($serialized, $form);
+            if (!is_array($form)) {
+                $form = [];
+            }
         }
-        if (isset($response)) {
+        $project_id = esc($form['project_id']);
+        $project = array(
+            'project_name'   => $form['project_name'],
+            'per_hour'  => $form['per_hour'],
+            'currency'      => $form['currency'],
+        );
+        $response = $this->projectModel->edit((array)$project, $project_id, false);
+        if (!empty($response)) {
             echo "Project updated!";
         } else {
             echo "Project not updated!" . \print_r($response);
