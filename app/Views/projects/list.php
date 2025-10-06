@@ -20,12 +20,11 @@
             <span class="col-md-2 col-sm-12 project-name edit-mode"><?= $project->project_name ?></span>
             <span class="col btn view_timers <?= $active ?>"><i class="bi bi-list-ul"></i></span>
             <span class="col-md-2 col-sm-12">Total: <span class="total-time <?= $active ?>"><?= $total  ?></span></span>
-            <span class="col-md-3 col-sm-12">
+            <span class="col-md-5 col-sm-12">
                 <div class='input-group'>
                     <span class="input-group-text">Paid</span>
                     <input type='number' class='form-control total-payed' data-project-id='<?= $project->id ?>' value='<?= @$project->total_payed ?? 0 ?>'>
-                    <span class="input-group-text">Debt: <?= (floor($project->total / 60) * @$project->per_hour ?? 1) - @$project->total_payed ?? 0 ?></span>
-                    <span class="input-group-text"><?= @$project->currency ?></span>
+                    <span class="input-group-text">Debt: <?= (floor($project->total / 60) * @$project->per_hour ?? 1) - @$project->total_payed ?? 0 ?> <?= @$project->currency ?></span>
                 </div>
             </span>
             <span class="col project-bnts">
